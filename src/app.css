@@ -14,6 +14,16 @@
 	--background-without-opacity: rgba(255, 255, 255, 0.7);
 	--column-width: 42rem;
 	--column-margin-top: 4rem;
+	/* FPL Colour Palette */
+	--darkgreen: #02884E;
+	--lightgreen: #00FF87;
+	--darkpurple: #37003C;
+	--lightpurple: #963CFF;
+	--indico: #E90052;
+	--cyan: #05F0FF;
+	--neonyellow: #EBFF00;
+	--gray: #E2E2E2;
+	--red: #C0020D;
 }
 
 body {
