@@ -3,7 +3,9 @@ import * as api from '$lib/api.js';
 export async function get({ params, locals }) {
   const { slug } = params;
   const user = await api.get(`entry/${slug}/`, locals.userid);
-  console.log('[User]:', user);
+  if (user) {
+    console.log('[User]:' , user.id, user.name);
+  }
   return { body: user };
 }
 

@@ -1,9 +1,17 @@
 <script context="module" lang="ts">
 	export const prerender = true;
+	export async function load({ page, fetch }) {
+    const [ season ] = await Promise.all([
+      await fetch(`/index.json`).then((r) => r.json())
+    ]);
+    return { props: { season } };
+  }
 </script>
 
 <script lang="ts">
-	import Counter from '$lib/Counter/index.svelte';
+	// FPL Season data - save to a store to access in other components
+	export let season;
+
 </script>
 
 <svelte:head>
@@ -12,21 +20,12 @@
 
 <section>
 	<h1>
-		<div class="welcome">
-			<picture>
-				<source srcset="svelte-welcome.webp" type="image/webp" />
-				<img src="svelte-welcome.png" alt="Welcome" />
-			</picture>
-		</div>
-
-		to your new<br />SvelteKit app
+		Season loaded:<br /><small>{!!season}</small>
 	</h1>
 
 	<h2>
 		try editing <strong>src/routes/index.svelte</strong>
 	</h2>
-
-	<Counter />
 </section>
 
 <style>
@@ -40,20 +39,5 @@
 
 	h1 {
 		width: 100%;
-	}
-
-	.welcome {
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
 	}
 </style>

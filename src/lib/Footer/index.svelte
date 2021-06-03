@@ -6,31 +6,35 @@
 	import Calendar20 from 'carbon-icons-svelte/lib/Calendar20/Calendar20.svelte';
 	import Group20 from 'carbon-icons-svelte/lib/Group20/Group20.svelte';
 	import Settings20 from 'carbon-icons-svelte/lib/Settings20/Settings20.svelte';
+
+	import { page } from '$app/stores';
+	$: console.log($page);
+	//console.log($page);
 </script>
 
 <footer class="footer">
-
-	<a href="/">
+  <!-- <li class:active={$page.path === '/'}> -->
+	<a href="/" class:active={$page.path === '/'} sveltekit:prefetch>
 		<Home20 aria-labelledby="Home" />
 		<!-- svelte-ignore a11y-label-has-associated-control -->
 		<label id="Home">Home</label>
 	</a>
-	<a href="/user">
+	<a href="/user" class:active={$page.path.startsWith('/user')} sveltekit:prefetch>
 		<UserAvatar20 aria-labelledby="Profile" />
 		<!-- svelte-ignore a11y-label-has-associated-control -->
 		<label id="Profile">Profile</label>
 	</a>
-	<a href="/fixtures">
+	<a href="/fixtures" class:active={$page.path.startsWith('/fixtures')} sveltekit:prefetch>
 		<Calendar20 aria-labelledby="Fixtures" />
 		<!-- svelte-ignore a11y-label-has-associated-control -->
 		<label id="Fixtures">Fixtures</label>
 	</a>
-	<a href="/leagues">
+	<a href="/leagues" class:active={$page.path.startsWith('/leagues')} sveltekit:prefetch>
 		<Group20 aria-labelledby="Leagues" />
 		<!-- svelte-ignore a11y-label-has-associated-control -->
 		<label id="Leagues">Leagues</label>
 	</a>
-	<a href="/settings">
+	<a href="/settings" class:active={$page.path.startsWith('/settings')} sveltekit:prefetch>
 		<Settings20 aria-labelledby="Settings" />
 		<!-- svelte-ignore a11y-label-has-associated-control -->
 		<label id="Settings">Settings</label>
@@ -70,25 +74,14 @@
 		padding: auto;
 	}
 	
-	.footer a:hover {
+	.footer a.active {
 		color: var(--lightpurple);
-		background-color: var(--offwhite);
-		animation: moveHeart 800ms steps(28) forwards;
+		background-color: var(--tertiary-color);
 	}
+
 	.footer a label {
 		font-size: smaller;
 		margin-top: -10px;
 	}
 	
-	@keyframes moveHeart {
-		0% {
-			background-position: left;
-		}
-		50% {
-			background-position: right;
-		}
-		100% {
-			background-position: right;
-		}
-	}
 </style>

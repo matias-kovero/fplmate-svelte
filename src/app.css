@@ -60,6 +60,15 @@ body::before {
 	flex-direction: column;
 }
 
+::-webkit-scrollbar {
+	width: 0px;
+	cursor: pointer;
+}
+::-webkit-scrollbar-thumb {
+	background: rgba(50, 50, 50, 0.2);
+	border-radius: 5px;
+}
+
 h1,
 h2,
 p {
