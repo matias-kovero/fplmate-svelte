@@ -1,0 +1,42 @@
+<script context="module">
+  export async function load({ page, fetch }) {
+    const { event } = page.params;
+
+    // check that slug is number!!
+    const [ matches ] = await Promise.all([
+      await fetch(`/fixtures/${event}.json`).then((r) => r.json())
+    ]);
+
+    return { props: { event: parseInt(event), matches } };
+  }
+</script>
+
+<script>
+  import { getGameweek } from '$lib/stores/season';
+  import Controls from '$lib/components/fixtures/Controls.svelte';
+  import GwInfo from '$lib/components/fixtures/GameweekInfo.svelte';
+  import Match from '$lib/components/fixtures/Match.svelte';
+  export let matches, event;
+
+  $: gameweek = getGameweek(event);
+</script>
+
+<svelte:head>
+  <title>Gameweek - {event}</title>
+</svelte:head>
+
+<div class="user">
+  <Controls {gameweek} />
+  <GwInfo {gameweek} />
+  <p>GW {event} matches</p>
+  {#each matches as match (match)}
+    <Match {match} />
+  {/each}
+    <pre>{JSON.stringify(matches, null, 2)}</pre>
+</div>
+
+<style>
+  pre {
+    font-size: 10px;
+  }
+</style>

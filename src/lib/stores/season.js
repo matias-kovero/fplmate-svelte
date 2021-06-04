@@ -30,6 +30,14 @@ export function lastGameweek() {
 }
 
 /**
+ * Get given gameweeks event object.
+ * @param {*} id 
+ */
+export function getGameweek(id) {
+  return get(season).events.find(e => e.id === id);
+}
+
+/**
  * Helper object that has functions to get
  * data from the season object.
  */

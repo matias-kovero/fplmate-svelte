@@ -1,9 +1,9 @@
 import * as api from '$lib/api.js';
 
 export async function get({ params, locals }) {
-  const { slug } = params;
-  const fixture = await api.get(`fixtures/?event=${slug}`, locals.userid);
-  return { body: fixture };
+  const { event } = params;
+  const response = await api.get(`fixtures/?event=${event}`, locals.userid);
+  return { body: response };
 }
 
 // Where do we need this?

@@ -9,8 +9,8 @@ import * as api from '$lib/api.js';
 import { currentGameweek } from '$lib/stores/season';
 
 export async function get({ params, locals }) {
-  const fixtures = await api.get(`fixtures/?event=${currentGameweek()}`);
-  return { body: fixtures };
+  const event = await api.get(`fixtures/?event=${currentGameweek()}`);
+  return { body: event };
 }
 
 // Where do we need this?

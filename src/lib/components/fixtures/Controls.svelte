@@ -1,10 +1,16 @@
 <script>
-  export let gameweek;
+  export let gameweek; // gameweek id - change to the event object
   import { lastGameweek } from '$lib/stores/season';
   let disabled = "javascript:void(0)";
+
   // Button states
-  $: prev = gameweek > 1 ? gameweek - 1 : 0;
-  $: next = gameweek < lastGameweek() ? gameweek + 1 : 0;
+  $: gwNum = gameweek.id;
+  $: prev = gwNum > 1 ? gwNum - 1 : 0;
+  $: next = gwNum < lastGameweek() ? gwNum + 1 : 0;
+
+  //$: event = getGameweek(gameweek);
+  $: deadline = new Date(gameweek.deadline_time).toDateString().slice(0, -4); // Remove last 4 digits (year)
+  $: time = new Date(gameweek.deadline_time).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
   // Not a fan how verbose the html code is. 
   // How to toggle prefetch?
 </script>
@@ -19,7 +25,10 @@
   {:else}
   <a href={disabled} class="prev-btn disabled">Prev</a>
   {/if}
-  <span>GW {gameweek}</span>
+  <div class="gameweek-info">
+    <span>GW {gwNum}</span>
+    <span>{deadline} {time}</span>
+  </div>
   {#if next}
   <a 
     href={`/fixtures/${next}`} 
@@ -64,7 +73,7 @@
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
   }
-  .controls span {
+  .controls div {
     width: 100%;
 		height: 100%;
     display: grid;
