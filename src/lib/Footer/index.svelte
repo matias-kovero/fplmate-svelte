@@ -8,7 +8,6 @@
 	import Settings20 from 'carbon-icons-svelte/lib/Settings20/Settings20.svelte';
 
 	import { page } from '$app/stores';
-	$: console.log($page);
 	//console.log($page);
 </script>
 

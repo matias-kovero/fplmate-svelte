@@ -6,10 +6,10 @@
 // * Are these tied to session?
 // ===========================
 import * as api from '$lib/api.js';
+import { currentGameweek } from '$lib/stores/season';
 
 export async function get({ params, locals }) {
-  // This request will req all fixtures - high chance the user is only intrested a few only
-  const fixtures = await api.get(`fixtures/`);
+  const fixtures = await api.get(`fixtures/?event=${currentGameweek()}`);
   return { body: fixtures };
 }
 
