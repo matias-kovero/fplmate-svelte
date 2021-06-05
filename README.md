@@ -2,49 +2,37 @@
 *Just an testing repo for svelte.*  
 > This repo might feature changing code styles / bad practices.  
 
-Attempting to re-create and clean the spaghetti coded react-app found at [fplmate.com](https://fplmate.com/)
+This project is an attempt to clean spaghetti coded react-app [fplmate.com](https://fplmate.com/)  
+Also trying to boost SEO ratings + initial load times with sveltekits SSR.
 
-### Mandatory data
-Every route needs season data from: `/api/bootstrap-static/`  
-This is the base data that is referenced in our other fetches.  
 
-Data needed for other routes:
+## Info
+
+Before the content can be displayed to the users initial data needs to be  
+fetched from `/bootstrap-static`. This fetch might slow down 1st render!
+
+This is created to serve as an PWA - so it has an layout aimed for mobile.
+
+### Endpoints
+
+| Path | Sub-path     | Description                |
+| :-------- | :------- | :------------------------- |
+| `/` |  | Home page |
+| `/user` |  | Profile page |
+| `/user` | `/{userId}` | Users profile page |
+| `/user` | `/{userId}/event/{gw}` | Users roster of given gameweek |
+| `/fixtures` |  | Current/Latest fixtures |
+| `/fixtures` | `/{gameweek}` | Gameweeks fixtures |
+| `/leagues` |  | Leagues page |
+| `/settings` |  | Settings page |
+
+
+### Dev
+If you are going to host an own version of this repo  
+**Please create an own API endpoint** *as the given api can't handle the traffic.*  
+
+To get things started - clone the repo and run these commands
 ```
-/users/{userid}
- - /api/entry/{userid}
- - /api/event/{gameweek}/live
- - /api/entry/{userid}/event/{gameweek}/picks
-
-/fixtures
- - /api/fixtures
-
-/leagues
- - /api/leagues-classic/{leagueid}/standings/?page_new_entries=1&page_standings=1
-```
-
-### Ideal state
-As the data is public (no auth needed), ideally we would like to server side render the data. But when a user has specified a profile he is intrested, show automatically that profiles information _(will require some sort of state handling -> stores)_
-
-No profile specified:
-```
-/leagues
- - /api/leagues-classic/{global-league-id1}
- - /api/leagues-classic/{global-league-id1}
- - .../etc
-```
-Profile specified:
-```
-- /api/leagues-classic/{profile-league-id1}
-- /api/leagues-classic/{profile-league-id2}
-- .../etc
-
-- /api/leagues-classic/{global-league-id1}
-- /api/leagues-classic/{global-league-id1}
-- .../etc
-```
-
-Also should have direct rendering of specific leagues ex:
-```
-/leagues/{leagueid}
- - /api/leagues-classic/{leagueid}/standings/?page_new_entries=1&page_standings=1
+npm install
+npm run dev -- --open
 ```
