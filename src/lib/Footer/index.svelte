@@ -1,52 +1,46 @@
 <script>
-	import Home20 from 'carbon-icons-svelte/lib/Home20/Home20.svelte';
-	import UserAvatar20 from 'carbon-icons-svelte/lib/UserAvatar20/UserAvatar20.svelte';
-	import Calendar20 from 'carbon-icons-svelte/lib/Calendar20/Calendar20.svelte';
-	import Group20 from 'carbon-icons-svelte/lib/Group20/Group20.svelte';
-	import Settings20 from 'carbon-icons-svelte/lib/Settings20/Settings20.svelte';
+	import Home from 'carbon-icons-svelte/lib/Home24/Home24.svelte';
+	import UserAvatar from 'carbon-icons-svelte/lib/UserAvatar24/UserAvatar24.svelte';
+	import Calendar from 'carbon-icons-svelte/lib/Calendar24/Calendar24.svelte';
+	import Group from 'carbon-icons-svelte/lib/Group24/Group24.svelte';
+	import Settings from 'carbon-icons-svelte/lib/Settings24/Settings24.svelte';
 	import { page } from '$app/stores';
 </script>
 <footer>
 	<div class="buttons">
 		<a sveltekit:prefetch href="/" class:active={$page.path === '/'}>
-			<Home20 aria-labelledby="Home" />
+			<Home aria-labelledby="Home" />
 			<!-- svelte-ignore a11y-label-has-associated-control -->
-			<label id="Home">Home</label>
+			<!-- <label id="Home">Home</label> -->
 		</a>
 		<a sveltekit:prefetch href="/user" class:active={$page.path.startsWith('/user')}>
-			<UserAvatar20 aria-labelledby="Profile" />
+			<UserAvatar aria-labelledby="Profile" />
 			<!-- svelte-ignore a11y-label-has-associated-control -->
-			<label id="Profile">Profile</label>
+			<!-- <label id="Profile">Profile</label> -->
 		</a>
 		<a sveltekit:prefetch href="/fixtures" class:active={$page.path.startsWith('/fixtures')}>
-			<Calendar20 aria-labelledby="Fixtures" />
+			<Calendar aria-labelledby="Fixtures" />
 			<!-- svelte-ignore a11y-label-has-associated-control -->
-			<label id="Fixtures">Fixtures</label>
+			<!-- <label id="Fixtures">Fixtures</label> -->
 		</a>
 		<a sveltekit:prefetch href="/leagues" class:active={$page.path.startsWith('/leagues')}>
-			<Group20 aria-labelledby="Leagues" />
+			<Group aria-labelledby="Leagues" />
 			<!-- svelte-ignore a11y-label-has-associated-control -->
-			<label id="Leagues">Leagues</label>
+			<!-- <label id="Leagues">Leagues</label> -->
 		</a>
 		<a sveltekit:prefetch href="/settings" class:active={$page.path.startsWith('/settings')}>
-			<Settings20 aria-labelledby="Settings" />
+			<Settings aria-labelledby="Settings" />
 			<!-- svelte-ignore a11y-label-has-associated-control -->
-			<label id="Settings">Settings</label>
+			<!-- <label id="Settings">Settings</label> -->
 		</a>
 	</div>
 </footer>
 
 <style lang="css">
-	footer {
-		z-index: 1;
-		position: sticky;
-		bottom: 0;
-		background-color: #000;
-	}
 	.buttons {
 		font-size: 60%;
 		font-weight: 800;
-		background: var(--pure-white);
+		/*background: var(--pure-white);*/
 		letter-spacing: 0.5px;
 		text-transform: uppercase;
 		font-family: var(--font-header);
@@ -70,26 +64,24 @@
 		height: 100%;
 		display: grid;
 		place-items: center;
-		color: var(--darkpurple);
+		color: var(--pure-white);
 		text-decoration: none;
-	}
-	.buttons a {
-		transition: color var(--transition-duration);
+		position: relative;
 		padding: auto;
 	}
 	.buttons a.active {
 		color: var(--lightpurple);
-		background-color: var(--tertiary-color);
 	}
-	.buttons > a.active:first-of-type {
-		border-bottom-left-radius: inherit;
+	a.active::before {
+		--size: 6px;
+		content: '';
+		width: 0;
+		height: 0;
+		position: absolute;
+		bottom: 0;
+		left: calc(50% - var(--size));
+		border: var(--size) solid transparent;
+		border-bottom: var(--size) solid var(--lightpurple);
 	}
-	.buttons > a.active:last-of-type {
-		border-bottom-right-radius: inherit;
-	}
-	.buttons a label {
-		font-size: smaller;
-		margin-top: -10px;
-	}
-	
+
 </style>

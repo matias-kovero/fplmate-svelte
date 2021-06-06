@@ -28,7 +28,12 @@
 
 body {
 	min-height: 100vh;
+	max-height: 100vh;
 	margin: 0;
+	background-color: #000;
+}
+
+main {
 	background-color: var(--primary-color);
 	background: linear-gradient(
 		180deg,
@@ -36,6 +41,8 @@ body {
 		var(--secondary-color) 10.45%,
 		var(--tertiary-color) 41.35%
 	);
+	border-bottom-left-radius: 20px;
+	border-bottom-right-radius: 20px;
 }
 
 body::before {
@@ -54,10 +61,26 @@ body::before {
 	opacity: 0.05;
 }
 
+header, footer {
+	position: sticky;
+	z-index: 1;
+}
+header {
+	top: 0;
+}
+footer {
+	bottom: 0;
+}
+
 #svelte {
+	/*
 	min-height: 100vh;
 	display: flex;
-	flex-direction: column;
+	flex-direction: column;*/
+	display: grid;
+	grid-template-rows: auto 1fr auto;
+	min-height: inherit;
+	max-height: inherit;
 }
 
 ::-webkit-scrollbar {

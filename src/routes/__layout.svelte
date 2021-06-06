@@ -20,15 +20,6 @@
 	// components use that store to fetch season info
 	// This way we will still have fast 1st load
 	setSeason(data);
-	//!$season ? setSeason(data) : null;
-	/*
-	$: {
-		console.log('Setting context!');
-		extract(season);
-	};
-	*/
-	//$: waited = extract(season);
-	//$: console.log(`Season is: ${data}`);
   // Childs will have access to the given data, no need to pass props :)
   //setContext('season', { data });
 </script>
@@ -36,15 +27,17 @@
 <Header />
 
 <main>
-	{#if $season}
-		<slot />
-	{/if}
+	<div class="content">
+		{#if $season}
+			<slot />
+		{/if}
+	</div>
 </main>
 
 <Footer />
 
 <style>
-	main {
+	.content {
 		flex: 1;
 		display: flex;
 		flex-direction: column;
@@ -53,5 +46,8 @@
 		max-width: 1024px;
 		margin: 0 auto;
 		box-sizing: border-box;
+	}
+	main {
+		overflow-y: scroll;
 	}
 </style>
