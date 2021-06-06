@@ -25,7 +25,9 @@
 	--gray: #E2E2E2;
 	--red: #C0020D;
 }
-
+html {
+	height: 100%;
+}
 body {
 	min-height: 100vh;
 	max-height: 100vh;
