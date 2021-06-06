@@ -16,7 +16,7 @@
     <p><a sveltekit:prefetch href="/settings/1">Option 1</a></p>
   </div>
   <div class="block">
-    <p><a sveltekit:prefetch href="/settings/2">Option 2</a></p>
+    <p><a sveltekit:prefetch href="/settings/1">Option 2</a></p>
   </div>
   <div class="block">
     <p>Option 3</p>
