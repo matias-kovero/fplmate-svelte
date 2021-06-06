@@ -19,7 +19,7 @@
 </script>
 
 <svelte:head>
-  <title>User - {slug}</title>
+  <title>{user.name}</title>
 </svelte:head>
 
 <div class="user">
