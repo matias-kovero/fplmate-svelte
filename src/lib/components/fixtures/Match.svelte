@@ -5,7 +5,7 @@
   export let match;
   // Childs will have access to the given data, no need to pass props :)
   setContext('match', { match });
-  /*
+  /*// On Child use:
     import { getContext } from 'svelte';
     const { match } = getContext('match');
   */
@@ -13,6 +13,14 @@
   $: kickoff = new Date(match.kickoff_time);
 </script>
 
-<div>
+<div class="match-container">
   <small>{match.event} | {match.id} => {match.code} | {kickoff.toLocaleDateString()} {kickoff.toLocaleTimeString()}</small>
 </div>
+
+<style>
+  .match-container {
+    background-color: var(--pure-white);
+    padding: 1em;
+    border-radius: 5px;
+  }
+</style>

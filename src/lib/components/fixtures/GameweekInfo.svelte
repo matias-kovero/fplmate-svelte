@@ -10,3 +10,17 @@
     <span>Points: {gameweek.highest_score}</span>
   </div>
 </div>
+
+<style>
+  .gameweek-info {
+    padding-top: 2em;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1em;
+  }
+  .average-score, .highest-profile {
+    padding: 1em;
+    background-color: var(--pure-white);
+    border-radius: 5px;
+  }
+</style>

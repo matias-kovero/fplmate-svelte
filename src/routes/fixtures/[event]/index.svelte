@@ -25,17 +25,28 @@
   <title>Gameweek - {event}</title>
 </svelte:head>
 
-<div class="user">
+<div class="gameweek">
   <Controls {gameweek} />
   <GwInfo {gameweek} />
-  <p>GW {event} matches</p>
-  {#each matches as match (match)}
-    <Match {match} />
-  {/each}
-    <pre>{JSON.stringify(matches, null, 2)}</pre>
+
+  <div class="gameweek-matches">
+    {#each matches as match (match)}
+      <Match {match} />
+    {/each}
+  </div>
+
+  <pre>{JSON.stringify(matches, null, 2)}</pre>
 </div>
 
 <style>
+  .gameweek, .gameweek-matches {
+    display: grid;
+    gap: 2em;
+  }
+  .gameweek-matches {
+    padding-top: 2em;
+  }
+
   pre {
     font-size: 10px;
   }

@@ -42,9 +42,9 @@
 
 <style>
   .controls {
-    font-size: 60%;
-		font-weight: 800;
-    min-height: 35px;
+    font-size: 80%;
+		font-weight: 700;
+    min-height: 3.5em;
     display: grid;
     background: #0000001a;
     gap: 5px;
