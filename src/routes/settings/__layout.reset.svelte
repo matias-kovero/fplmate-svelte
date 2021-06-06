@@ -7,13 +7,15 @@
 <Header />
 
 <main>
-  <slot />
+	<div class="content">
+  	<slot />
+	</div>
 </main>
 
 <Footer />
 
 <style>
-	main {
+	.content {
 		flex: 1;
 		display: flex;
 		flex-direction: column;
@@ -22,5 +24,8 @@
 		max-width: 1024px;
 		margin: 0 auto;
 		box-sizing: border-box;
+	}
+	main {
+		overflow-y: scroll;
 	}
 </style>
