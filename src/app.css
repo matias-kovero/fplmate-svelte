@@ -30,8 +30,8 @@ html {
 	width: 100%;
 }
 body {
-	min-height: 100vh;
-	max-height: 100vh;
+	/*min-height: 100vh;*/
+	/*max-height: 100vh;*/
 	margin: 0;
 	background-color: #000;
 	height: inherit;
@@ -46,8 +46,8 @@ main {
 		var(--secondary-color) 10.45%,
 		var(--tertiary-color) 41.35%
 	);
-	border-bottom-left-radius: 20px;
-	border-bottom-right-radius: 20px;
+	border-bottom-left-radius: 18px;
+	border-bottom-right-radius: 18px;
 }
 
 body::before {

@@ -28,7 +28,9 @@
 
 <div class="gameweek">
   <Controls {gameweek} />
-  <p><b>from: </b>{$navigating.from}, <b>to: </b>{$navigating.to}</p>
+  {#if $navigating}
+    <p><b>from: </b>{$navigating.from.path}, <b>to: </b>{$navigating.to.path}</p>
+  {/if}
   <GwInfo {gameweek} />
 
   <div class="gameweek-matches">
