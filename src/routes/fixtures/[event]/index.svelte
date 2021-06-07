@@ -38,11 +38,14 @@
       <Match {match} />
     {/each}
   </div>
-
-  <pre>{JSON.stringify(matches, null, 2)}</pre>
+  <div class="scroll-block"></div>
+  <!-- <pre>{JSON.stringify(matches, null, 2)}</pre> -->
 </div>
 
 <style>
+  .scroll-block {
+    height: 1800px;
+  }
   .gameweek, .gameweek-matches {
     display: grid;
     gap: 2em;
