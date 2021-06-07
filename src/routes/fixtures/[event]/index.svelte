@@ -12,6 +12,7 @@
 </script>
 
 <script>
+  import { navigating } from '$app/stores';
   import { getGameweek } from '$lib/stores/season';
   import Controls from '$lib/components/fixtures/Controls.svelte';
   import GwInfo from '$lib/components/fixtures/GameweekInfo.svelte';
@@ -27,6 +28,7 @@
 
 <div class="gameweek">
   <Controls {gameweek} />
+  <p><b>from: </b>{$navigating.from}, <b>to: </b>{$navigating.to}</p>
   <GwInfo {gameweek} />
 
   <div class="gameweek-matches">
