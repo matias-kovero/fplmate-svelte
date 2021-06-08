@@ -28,9 +28,6 @@ This is created to serve as an PWA - so it has an layout aimed for mobile.
 
 
 ### Dev
-If you are going to host an own version of this repo  
-**Please create an own API endpoint** *as the given api can't handle the traffic.*  
-
 To get things started - clone the repo and run these commands
 ```
 npm install
