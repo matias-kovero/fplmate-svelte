@@ -68,6 +68,7 @@
 		text-decoration: none;
 		position: relative;
 		padding: auto;
+		-webkit-tap-highlight-color: transparent;
 	}
 	.buttons a.active {
 		color: var(--lightpurple);

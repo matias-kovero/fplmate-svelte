@@ -4,9 +4,10 @@
   let disabled = "javascript:void(0)";
 
   // Button states
+  $: lastGw = lastGameweek();
   $: gwNum = gameweek.id;
   $: prev = gwNum > 1 ? gwNum - 1 : 0;
-  $: next = gwNum < lastGameweek() ? gwNum + 1 : 0;
+  $: next = gwNum < $lastGw ? gwNum + 1 : 0;
 
   //$: event = getGameweek(gameweek);
   $: deadline = new Date(gameweek.deadline_time).toDateString().slice(0, -4); // Remove last 4 digits (year)

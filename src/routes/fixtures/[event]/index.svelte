@@ -12,7 +12,6 @@
 </script>
 
 <script>
-  import { navigating } from '$app/stores';
   import { getGameweek } from '$lib/stores/season';
   import Controls from '$lib/components/fixtures/Controls.svelte';
   import GwInfo from '$lib/components/fixtures/GameweekInfo.svelte';
@@ -27,11 +26,12 @@
 </svelte:head>
 
 <div class="gameweek">
-  <Controls {gameweek} />
-  {#if $navigating}
-    <p><b>from: </b>{$navigating.from.path}, <b>to: </b>{$navigating.to.path}</p>
-  {/if}
-  <GwInfo {gameweek} />
+  {#await $gameweek}
+    <p>Loading...</p>
+  {:then gameweek} 
+    <Controls {gameweek} />
+    <GwInfo {gameweek} />
+  {/await}
 
   <div class="gameweek-matches">
     {#each matches as match (match)}
@@ -52,9 +52,5 @@
   }
   .gameweek-matches {
     padding-top: 2em;
-  }
-
-  pre {
-    font-size: 10px;
   }
 </style>

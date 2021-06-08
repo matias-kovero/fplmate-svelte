@@ -13,10 +13,9 @@
 </script>
 
 <script lang="ts">
-	// FPL Season data - saved to a store to access in other components
-	import { season } from '$lib/stores/season';
-	//const season = getSeason();
-	$: console.log(season);
+	// Get FPL season metadata
+	import { session } from '$app/stores';
+	$: season = $session.season;
 </script>
 
 <svelte:head>
@@ -24,15 +23,15 @@
 </svelte:head>
 
 <section>
-	{#if $season}
+	{#if season}
 		<h1>
-			Season loaded:<br /><small>{!!$season}</small>
+			Season loaded:<br /><small>{!!season}</small>
 		</h1>
 		<h2>
 			try editing <strong>src/routes/index.svelte</strong>
 		</h2>
 		<div class="test-season">
-			<p>Total players: {$season.total_players}</p>
+			<p>Total players: {season.total_players}</p>
 			<!--<pre>{JSON.stringify(season, null, 2)}</pre> -->
 		</div>
 	{:else}

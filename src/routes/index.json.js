@@ -5,10 +5,12 @@
 // https://github.com/sveltejs/sapper/issues/1627
 
 import * as api from '$lib/api.js';
+import { store, getData } from '$lib/stores/fpl-season';
 
 export async function get({ params, locals }) {
   // The base info of FPL - mandatory to every other request
-  const season = await api.get(`bootstrap-static/`);
+  //const season = await api.get(`bootstrap-static/`);
+  const season = getData('/bootstrap-static/');
   return { body: season };
 }
 

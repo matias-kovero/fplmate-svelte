@@ -1,10 +1,14 @@
 import cookie from 'cookie';
 import { v4 as uuid } from '@lukeed/uuid';
 import type { Handle } from '@sveltejs/kit';
+import * as api from '$lib/api';
 
 export const handle: Handle = async ({ request, resolve }) => {
 	const cookies = cookie.parse(request.headers.cookie || '');
 	request.locals.userid = cookies.userid || uuid();
+
+	// FPL Metadata - mandatory for every page!
+	request.locals.season = await api.get('/bootstrap-static/');
 
 	// TODO https://github.com/sveltejs/kit/issues/1046
 	if (request.query.has('_method')) {
@@ -21,3 +25,7 @@ export const handle: Handle = async ({ request, resolve }) => {
 
 	return response;
 };
+
+export function getSession(request) {
+	return { season: request.locals.season };
+}

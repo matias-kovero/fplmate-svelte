@@ -21,6 +21,7 @@
 		place-items: center;
 		/*justify-content: space-between; */
 		background-color: var(--pure-white);
+		height: var(--header-height);
 	}
 	.center {
 		width: 3em;

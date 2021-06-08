@@ -1,5 +1,8 @@
 <script>
-  import { season, currentGameweek } from '$lib/stores/season';
+  import { session } from '$app/stores';
+  import { currentGameweek } from '$lib/stores/season';
+
+  $: gameweek = currentGameweek();
 </script>
 
 <svelte:head>
@@ -7,8 +10,8 @@
 </svelte:head>
 
 <div class="fixtures">
-  <p>The season has {$season.events.length} gameweeks.</p>
-  <small>Current: GW{currentGameweek()}</small>
+  <p>The season has {$session.season.events.length} gameweeks.</p>
+  <small>Current: GW{$gameweek}</small>
 </div>
 
 <style>
