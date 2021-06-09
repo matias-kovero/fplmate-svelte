@@ -1,20 +1,16 @@
 <script context="module">
   export async function load({ page, fetch }) {
-    const { slug } = page.params;
+    const { id } = page.params;
     const [ user ] = await Promise.all([
-      await fetch(`/user/${slug}.json`).then((r) => r.json())
+      await fetch(`/user/${id}.json`).then((r) => r.json())
     ]);
 
-    return { props: { slug, user } };
+    return { props: { id, user } };
   }
 </script>
 
 <script>
-
-  export let user;
-  //export let season;
-  export let slug;
-
+  export let user, id;
 
 </script>
 
@@ -23,7 +19,7 @@
 </svelte:head>
 
 <div class="user">
-  <p>User</p>
+  <p>User | {id}</p>
     <pre>{JSON.stringify(user, null, 2)}</pre>
 </div>
 

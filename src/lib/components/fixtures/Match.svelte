@@ -9,10 +9,9 @@
     import { getContext } from 'svelte';
     const { match } = getContext('match');
   */
-
   $: kickoff = new Date(match.kickoff_time);
 </script>
-
+<small>{kickoff.toLocaleDateString()} {kickoff.toLocaleTimeString()}</small>
 <div class="match-container">
   <small>{match.event} | {match.id} => {match.code} | {kickoff.toLocaleDateString()} {kickoff.toLocaleTimeString()}</small>
 </div>

@@ -1,14 +1,22 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { page, session } from '$app/stores';
+	import { updateUser } from '$lib/stores/user';
 	import logo from './logo.png';
   import BackIcon from 'carbon-icons-svelte/lib/ArrowLeft32/ArrowLeft32.svelte';
   // This is under every page under /users/
   $: previous = $page.path.substring(0, $page.path.lastIndexOf('/'));
+
+	function removeActiveUser() {
+		console.log('Bye bye user!');
+		updateUser(null);
+		$session.user = null;
+	}
+
 </script>
 
 <header>
   <div class="corner">
-    <a sveltekit:prefetch href={previous}>
+    <a sveltekit:prefetch href={previous} on:click={removeActiveUser}>
 			<BackIcon aria-labelledby="Back" />
 		</a>
 	</div>

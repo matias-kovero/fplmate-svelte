@@ -6,9 +6,9 @@ import * as api from '$lib/api';
 export const handle: Handle = async ({ request, resolve }) => {
 	const cookies = cookie.parse(request.headers.cookie || '');
 	request.locals.userid = cookies.userid || uuid();
-
+	//request.locals.season = cookies.season ? JSON.parse(cookies.season) : await api.get('api/bootstrap-static/');
 	// FPL Metadata - mandatory for every page!
-	request.locals.season = await api.get('/bootstrap-static/');
+	request.locals.season = await api.get('api/bootstrap-static/', null, true);
 
 	// TODO https://github.com/sveltejs/kit/issues/1046
 	if (request.query.has('_method')) {
@@ -27,5 +27,8 @@ export const handle: Handle = async ({ request, resolve }) => {
 };
 
 export function getSession(request) {
-	return { season: request.locals.season };
+	return { 
+		season: request.locals.season, 
+		user: request.locals.user 
+	};
 }
