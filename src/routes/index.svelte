@@ -15,7 +15,7 @@
 <script lang="ts">
 	// Get FPL season metadata
 	import { session } from '$app/stores';
-	import { checkPWA } from '$lib/pwa';
+	import { checkPWA, showPWAInstall } from '$lib/pwa';
 	$: season = $session.season;
 	$: pwaStatus = checkPWA();
 </script>
@@ -37,9 +37,9 @@
 			{#await pwaStatus}
 				<p>Checking PWA status...</p>
 			{:then res} 
-				{#if res.status}
-					<small>PWA Results</small>
-					<pre>{JSON.stringify(res.apps, null, 2)}</pre>
+				{#if res.supports && !res.status}
+					<small>Installed PWA: {res.status}</small>
+					<button on:click={showPWAInstall}>Install PWA</button>
 				{:else}
 					<p>Failed to check PWA</p>
 				{/if}
