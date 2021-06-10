@@ -15,7 +15,6 @@
 </script>
 
 <script>
-  export let user;
   import Login from '$lib/components/auth/Login.svelte';
   import { session } from '$app/stores';
   import { goto } from '$app/navigation';
@@ -42,7 +41,6 @@
 </script>
 
 <div>
-  <h4>Select user: {user}</h4>
   <p>Sample user: <a href="/user/775357" sveltekit:prefetch> click here</a></p>
   <p>Sample2 user: <a href="/user/1598128" sveltekit:prefetch> click here</a></p>
 </div>

@@ -15,7 +15,9 @@
 <script lang="ts">
 	// Get FPL season metadata
 	import { session } from '$app/stores';
+	import { checkPWA } from '$lib/pwa';
 	$: season = $session.season;
+	$: pwaStatus = checkPWA();
 </script>
 
 <svelte:head>
@@ -32,6 +34,16 @@
 		</h2>
 		<div class="test-season">
 			<p>Total players: {season.total_players}</p>
+			{#await pwaStatus}
+				<p>Checking PWA status...</p>
+			{:then res} 
+				{#if res.status}
+					<small>PWA Results</small>
+					<pre>{JSON.stringify(res.apps, null, 2)}</pre>
+				{:else}
+					<p>Failed to check PWA</p>
+				{/if}
+			{/await}
 			<!--<pre>{JSON.stringify(season, null, 2)}</pre> -->
 		</div>
 	{:else}

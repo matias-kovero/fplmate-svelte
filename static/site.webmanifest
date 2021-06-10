@@ -11,12 +11,16 @@
     {
       "src":"/android-chrome-512x512.png",
       "sizes":"512x512",
-      "type":"image/png",
-      "purpose": "any maskable"
+      "type":"image/png"
     }
   ],
+  "scope": "/",
   "start_url": "/",
-  "theme_color":"#FFFFFF",
-  "background_color":"#B9C6D2",
-  "display":"standalone"
+  "theme_color":"#222",
+  "background_color":"#222",
+  "display":"standalone",
+  "related_applications": [{
+    "platform": "webapp",
+    "url": "https://fplmate-svelte.vercel.app/site.webmanifest"
+  }]
 }
