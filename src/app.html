@@ -5,13 +5,18 @@
 		<link rel="icon" href="/favicon.ico" />
 		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name=mobile-web-app-capable content=yes>
+  	<meta name=apple-mobile-web-app-capable content=yes>
 		<meta name="theme-color" content="#222"/>
 		<link rel="manifest" href="/site.webmanifest" />
 		<script>
 			const doc = document.firstElementChild;
+			const colors = { 'light': '#fcfdfd', 'dark': '#22282a', 'dim': '#394246' };
 			const ls = window.localStorage;
 			if (ls && ls.getItem('theme')) {
 				doc.setAttribute('color-scheme', ls.getItem('theme'));
+				// wonky way of altering statusbar color 
+				document.querySelector('meta[name="theme-color"]').setAttribute('content', `${colors[ls.getItem('theme')]}`);
 			};
 		</script>
 

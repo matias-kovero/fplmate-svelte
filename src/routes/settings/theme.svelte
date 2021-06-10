@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-
+  const colors = { 'light': '#fcfdfd', 'dark': '#22282a', 'dim': '#394246' };
   let doc;
 
   onMount(() => {
@@ -20,6 +20,8 @@
     // Save this to localStorage as well - for percistent
     if (typeof window !== 'undefined') {
       window.localStorage.setItem('theme', theme);
+      // Should find a way to use css values here...
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', `${colors[theme]}`);
     }
   }
 
