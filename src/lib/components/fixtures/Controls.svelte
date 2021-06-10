@@ -47,7 +47,7 @@
 		font-weight: 700;
     min-height: 3.5em;
     display: grid;
-    background: #0000001a;
+    background: #0000000c;
     gap: 5px;
     grid-template-columns: repeat(3, 1fr);
     border-radius: 5px;
@@ -57,8 +57,8 @@
 		height: 100%;
 		display: grid;
 		place-items: center;
-		color: var(--darkpurple);
-    background: var(--pure-white);
+		color: var(--text1);
+    background: var(--surface2);
 		text-decoration: none;
 	}
   a.disabled {
@@ -79,7 +79,7 @@
 		height: 100%;
     display: grid;
 		place-items: center;
-		color: var(--darkpurple);
-    background: var(--pure-white);
+		color: var(--text1);
+    background: var(--surface2);
   }
 </style>

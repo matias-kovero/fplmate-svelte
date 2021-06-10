@@ -18,7 +18,7 @@
 
 <style>
   .match-container {
-    background-color: var(--pure-white);
+    background-color: var(--surface2);
     padding: 1em;
     border-radius: 5px;
   }

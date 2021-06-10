@@ -30,7 +30,7 @@
 		grid-template-columns: repeat(3, 1fr);
 		place-items: center;
 		/*justify-content: space-between; */
-		background-color: var(--pure-white);
+		background-color: var(--surface2);
 	}
 	.center, .corner {
 		width: 3em;
@@ -49,6 +49,6 @@
 		object-fit: contain;
 	}
   .corner a {
-    color: var(--darkpurple);
+    color: var(--text1);
   }
 </style>

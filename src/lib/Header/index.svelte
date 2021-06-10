@@ -20,7 +20,7 @@
 		grid-template-columns: repeat(3, 1fr);
 		place-items: center;
 		/*justify-content: space-between; */
-		background-color: var(--pure-white);
+		background-color: var(--surface2);
 		height: var(--header-height);
 	}
 	.center {

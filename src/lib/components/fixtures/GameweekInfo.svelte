@@ -20,7 +20,7 @@
   }
   .average-score, .highest-profile {
     padding: 1em;
-    background-color: var(--pure-white);
+    background-color: var(--surface2);
     border-radius: 5px;
   }
 </style>

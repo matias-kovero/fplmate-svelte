@@ -1,15 +1,20 @@
 <script lang="ts">
 	import { page, session } from '$app/stores';
-	import { updateUser } from '$lib/stores/user';
 	import logo from './logo.png';
   import BackIcon from 'carbon-icons-svelte/lib/ArrowLeft32/ArrowLeft32.svelte';
+	import Logout from '$lib/components/auth/Logout.svelte';
+	import { goto } from '$app/navigation';
   // This is under every page under /users/
   $: previous = $page.path.substring(0, $page.path.lastIndexOf('/'));
+	$: loggedIn = !!$session.entry;
 
 	function removeActiveUser() {
-		console.log('Bye bye user!');
-		updateUser(null);
-		$session.user = null;
+		console.log($page);
+		//$session.entry = null;
+	}
+
+	function redictToLogin() {
+		goto('/user');
 	}
 
 </script>
@@ -26,6 +31,11 @@
 			<img src={logo} alt="FPLMate" />
 		</a>
 	</div>
+	{#if loggedIn}
+	<div class="corner">
+		<Logout on:success={redictToLogin} />
+	</div>
+	{/if}
 </header>
 
 <style>
@@ -34,7 +44,7 @@
 		grid-template-columns: repeat(3, 1fr);
 		place-items: center;
 		/*justify-content: space-between; */
-		background-color: var(--pure-white);
+		background-color: var(--surface2);
 	}
 	.center, .corner {
 		width: 3em;
@@ -53,6 +63,6 @@
 		object-fit: contain;
 	}
   .corner a {
-    color: var(--darkpurple);
+    color: var(--text1);
   }
 </style>

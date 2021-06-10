@@ -1,11 +1,15 @@
 <script>
   import AutoComplete from 'simple-svelte-autocomplete';
+  import { createEventDispatcher } from 'svelte';
   import * as api from '$lib/api';
-  import { setUser, updateUser } from '$lib/stores/user';
+
   import { session } from '$app/stores';
   import { goto } from '$app/navigation';
 
+  const dispatch = createEventDispatcher();
+
   let selected;
+  let error;
 
   async function getUsers(str) {
     const url = `search/${encodeURIComponent(str)}`;
@@ -28,18 +32,34 @@
     }
   }
 
-  function handleSelect() {
+  async function handleSelect() {
     if (selected && selected.value) {
-      updateUser(selected.value);
-      setUser(selected.value);
-      // update session with given user!
-      $session.user = selected.value;
-      goto('/user');
+      error = undefined;
+      try {
+        const res = await fetch('/auth/login', {
+          method: 'POST',
+          body: JSON.stringify(selected),
+          headers: { 'Content-Type': 'application/json' }
+        });
+        if (res.ok) {
+          console.log('[Login] Login as:', selected.id);
+          console.log('[Login] Session:', $session.entry);
+          // Risky - need an better fix
+          $session.entry = selected.id;
+          dispatch('success');
+        } else {
+          error = 'Error occured!';
+        }
+      } catch (err) {
+        console.log('[ERR]', err);
+        error = err.message;
+      }
     }
   }
 </script>
 
 <div>
+  {#if error}<p>{error}</p>{/if}
   <AutoComplete 
     searchFunction={getUsers} 
     delay=500
@@ -51,7 +71,7 @@
     hideArrow={true}
     showClear={false}
     placeholder="Team ID/Name or owner"
-    onChange={() => handleSelect()}
+    onChange={async () => handleSelect()}
     >
     <div slot="item" let:item let:label>
       <div class="user-option">

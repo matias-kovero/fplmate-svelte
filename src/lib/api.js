@@ -5,7 +5,7 @@ const cache = new Map();
 
 function checkCache(key) {
   if (cache.has(key)) {
-    console.log('[Cache]', key);
+    //console.log('[Cache]', key);
     return cache.get(key);
   }
   return false;
@@ -19,7 +19,7 @@ function addCache(key, data) {
 // @ts-ignore
 async function send({ method, path, data, token }) {
   const opts = { method, headers: {} };
-  console.log(`[GET] /${path}`);
+  //console.log(`[GET] /${path}`);
   opts.headers['User-Agent'] = basic_UA;
 
   if (data) {

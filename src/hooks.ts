@@ -6,7 +6,10 @@ import * as api from '$lib/api';
 export const handle: Handle = async ({ request, resolve }) => {
 	const cookies = cookie.parse(request.headers.cookie || '');
 	request.locals.userid = cookies.userid || uuid();
-	//request.locals.season = cookies.season ? JSON.parse(cookies.season) : await api.get('api/bootstrap-static/');
+	// Current active user
+	request.locals.entry = cookies.entry || undefined;
+	//console.log('[Hooks.ts] Entry:', request.locals.entry);
+
 	// FPL Metadata - mandatory for every page!
 	request.locals.season = await api.get('api/bootstrap-static/', null, true);
 
@@ -25,10 +28,11 @@ export const handle: Handle = async ({ request, resolve }) => {
 
 	return response;
 };
-
+// This is stuff that gets sended to the client.
+// Should we try to shrink season? - it's a bit bloated
 export function getSession(request) {
 	return { 
 		season: request.locals.season, 
-		user: request.locals.user 
+		entry: request.locals.entry
 	};
 }

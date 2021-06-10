@@ -70,6 +70,7 @@
 		padding: auto;
 		-webkit-tap-highlight-color: transparent;
 	}
+
 	.buttons a.active {
 		color: var(--lightpurple);
 	}
@@ -83,6 +84,22 @@
 		left: calc(50% - var(--size));
 		border: var(--size) solid transparent;
 		border-bottom: var(--size) solid var(--lightpurple);
+	}
+	.buttons a:nth-child(1).active, .buttons a:nth-child(1).active::before {
+		color: var(--indico);
+		border-bottom-color: var(--indico) !important;
+	}
+	.buttons a:nth-child(2).active, .buttons a:nth-child(2).active::before {
+		color: var(--cyan);
+		border-bottom-color: var(--cyan) !important;
+	}
+	.buttons a:nth-child(3).active, .buttons a:nth-child(3).active::before {
+		color: var(--neonyellow);
+		border-bottom-color: var(--neonyellow) !important;
+	}
+	.buttons a:nth-child(4).active, .buttons a:nth-child(4).active::before {
+		color: var(--darkgreen);
+		border-bottom-color: var(--darkgreen) !important;
 	}
 
 </style>

@@ -12,14 +12,14 @@
 </svelte:head>
 
 <div class="settings">
-  <div class="block">
-    <p><a sveltekit:prefetch href="/settings/1">Option 1</a></p>
+  <div class="block shadow-1">
+    <a sveltekit:prefetch href="/settings/1">Option 1</a>
   </div>
-  <div class="block">
-    <p><a sveltekit:prefetch href="/settings/1">Option 2</a></p>
+  <div class="block shadow-1">
+    <a sveltekit:prefetch href="/settings/theme">Theme</a>
   </div>
-  <div class="block">
-    <p>Option 3</p>
+  <div class="block shadow-1">
+    <a sveltekit:prefetch href="/settings/1">Memory</a>
   </div>
 </div>
 
@@ -27,11 +27,17 @@
   .settings {
     padding-top: 10%;
     display: grid;
-    gap: 3em;
+    gap: 2em;
   }
   .block {
-    padding: .5em;
+    /* padding: .5em; */
     border-radius: .5em;
-    background-color: var(--pure-white);
+    background-color: var(--surface1);
+    color: var(--text1);
+  }
+  a { 
+    color: inherit;
+    display: block;
+    padding: 1em;
   }
 </style>
