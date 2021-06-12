@@ -1,37 +1,10 @@
 <script>
-  import AutoComplete from 'simple-svelte-autocomplete';
   import Search from './UserSearch.svelte';
   import { createEventDispatcher } from 'svelte';
-  import * as api from '$lib/api';
-  import Icon from 'carbon-icons-svelte/lib/User24/User24.svelte';
   import { session } from '$app/stores';
-  import { goto } from '$app/navigation';
 
   const dispatch = createEventDispatcher();
-
-  let selected;
   let error;
-
-  async function getUsers(str) {
-    const url = `search/${encodeURIComponent(str)}`;
-    try {
-      const response = await api.get(url);
-      /* label, value */
-      return response.map((i) => {
-        let [ owner, team ] = i.label.split(',', 2);
-        return ({
-          value: i.value,
-          id: i.value,
-          label: i.label,
-          owner,
-          team
-        });
-      });
-    } catch (err) {
-      console.log(err);
-      return [];
-    }
-  }
 
   async function selectUser(user) {
     if (user && user.id) {

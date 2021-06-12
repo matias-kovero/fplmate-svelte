@@ -26,6 +26,12 @@ This is created to serve as an PWA - so it has an layout aimed for mobile.
 | `/leagues` |  | Leagues page |
 | `/settings` |  | Settings page |
 
+### Structure
+SvelteKit uses an _filesystem-based router_. The structure is found under `src/routes`. Each route can have pages _(.svelte)_ and endpoints _(.json.js)_ under them.  
+Pages provide html markdown whilist endpoints provide data to the given page.  
+
+Example this project has an route: `src/routes/user/[id]/[gameweek]`  
+that matches urls: `/user/1234/10` => _(id=1234, gameweek=10)_
 
 ### Dev
 To get things started - clone the repo and run these commands

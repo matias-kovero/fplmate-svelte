@@ -34,14 +34,9 @@
 		</h2>
 		<div class="test-season">
 			<p>Total players: {season.total_players}</p>
-			{#await pwaStatus}
-				<p>Checking PWA status...</p>
-			{:then res} 
+			{#await pwaStatus then res}
 				{#if res.supports && !res.status}
-					<small>Installed PWA: {res.status}</small>
 					<button on:click={showPWAInstall}>Install PWA</button>
-				{:else}
-					<p>Failed to check PWA</p>
 				{/if}
 			{/await}
 			<!--<pre>{JSON.stringify(season, null, 2)}</pre> -->
