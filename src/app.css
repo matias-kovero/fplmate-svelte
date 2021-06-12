@@ -234,6 +234,18 @@ footer {
 	border-radius: 5px;
 }
 
+.search-element {
+  background-color: var(--surface1);
+}
+.search-input {
+  background-color: var(--surface1);
+  border: 1px solid hsl(var(--brand-hue) 10% 50% / 15%);
+}
+.search-dropdown {
+  background-color: var(--surface1) !important;
+  color: var(--text1) !important;
+}
+
 h1,
 h2,
 p {

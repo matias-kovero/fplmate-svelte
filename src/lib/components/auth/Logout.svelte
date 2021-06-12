@@ -2,7 +2,7 @@
   import { createEventDispatcher } from 'svelte';
 
   import { session } from '$app/stores';
-  import { goto } from '$app/navigation';
+  import Icon from 'carbon-icons-svelte/lib/LogOut24/LogOut24.svelte';
 
   const dispatch = createEventDispatcher();
   let error;
@@ -27,12 +27,15 @@
   }
 </script>
 
-<div>
-  {#if error}<p>{error}</p>{/if}
-</div>
-<div>
-  <button on:click={handleLogout}>Logout</button>
+<div on:click={handleLogout}>
+  <Icon />
 </div>
 
 <style>
+  div {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    place-items: center;
+  }
 </style>

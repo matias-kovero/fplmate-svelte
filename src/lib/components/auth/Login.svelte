@@ -2,6 +2,7 @@
   import Search from './UserSearch.svelte';
   import { createEventDispatcher } from 'svelte';
   import { session } from '$app/stores';
+  import { addUser, getUsers } from './userStore';
 
   const dispatch = createEventDispatcher();
   let error;
@@ -16,9 +17,7 @@
           headers: { 'Content-Type': 'application/json' }
         });
         if (res.ok) {
-          console.log('[Login] Login as:', user.id);
-          console.log('[Login] Session:', $session.entry);
-          // Risky - need an better fix
+          addUser({ id: user.id, name: user.name, owner: user.owner }); // Add user to localStorage
           $session.entry = user.id;
           dispatch('success');
         } else {
@@ -30,7 +29,7 @@
       }
     }
   }
-
+  $: recentUser = getUsers();
 </script>
 
 <div class="login-container">
@@ -49,7 +48,11 @@
       </div>
     </div>
     <div class="recent-searches">
-
+      {#if recentUser && recentUser.length}
+        {#each recentUser as user}
+          <p>{user.id} | {user.name} | {user.owner}</p>
+        {/each}
+      {/if}
     </div>
   </div>
 </div>

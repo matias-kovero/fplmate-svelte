@@ -19,8 +19,9 @@
           value: i.value,
           id: i.value,
           label: i.label,
+          team,
+          name: team.replace(`(${i.value})`,'').trim(),
           owner,
-          team
         });
       });
     } catch (err) {
@@ -47,6 +48,9 @@
     showClear={false}
     placeholder="Team ID/Name or owner"
     onChange={async () => selectUser(selected)}
+    className="search-element"
+    inputClassName="search-input"
+    dropdownClassName="search-dropdown"
     >
     <div slot="item" let:item>
       <div class="user-option">
@@ -78,6 +82,7 @@
   }
   .user-option {
     font-size: smaller;
+    color: var(--text1);
   }
   .search-owner {
     font-weight: 700;
