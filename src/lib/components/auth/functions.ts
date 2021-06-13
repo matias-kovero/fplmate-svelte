@@ -28,3 +28,20 @@ export async function login(user): Promise<boolean> {
     return false;
   }
 }
+
+export async function logout(id): Promise<boolean> {
+  try {
+    const res = await fetch('/auth/logout', {
+      method: 'POST',
+      body: JSON.stringify(id),
+      headers: { 'Content-Type': 'application/json' }
+    });
+    if (res.ok) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    return false;
+  }
+}

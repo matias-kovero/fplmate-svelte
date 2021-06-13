@@ -2,27 +2,18 @@
   import { createEventDispatcher } from 'svelte';
 
   import { session } from '$app/stores';
-  import Icon from 'carbon-icons-svelte/lib/LogOut24/LogOut24.svelte';
+  import Icon from 'carbon-icons-svelte/lib/Logout24/Logout24.svelte';
+  import { logout } from './functions';
 
   const dispatch = createEventDispatcher();
-  let error;
 
   async function handleLogout() {
-    try {
-      const res = await fetch('/auth/logout', {
-        method: 'POST',
-        body: JSON.stringify($session.entry),
-        headers: { 'Content-Type': 'application/json' }
-      });
-      if (res.ok) {
+    if ($session.entry) {
+      let ok = await logout($session.entry);
+      if (ok) {
         $session.entry = undefined;
         dispatch('success');
-      } else {
-        error = 'Error occured!';
       }
-    } catch (err) {
-      console.log('[ERR]', err);
-      error = err.message;
     }
   }
 </script>
