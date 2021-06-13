@@ -1,8 +1,7 @@
 <script context="module">
   export async function load({ page, fetch, session }) {
-    console.log('[load()] entry', session.entry);
+    console.log('[/user load()] entry', session.entry);
     if (session.entry) {
-      console.log('[Redirect] /user/', session.entry);
       // Redirect to user page
       return {
         status: 302,
@@ -26,18 +25,24 @@
     goto(`/user/${getUser()}`);
   }; */
 
-  $: console.log('Session entry:', $session.entry);
+  //$: console.log('Session entry:', $session.entry);
+
+  let activeUser;
+
+  session.subscribe(value => {
+    activeUser = value.entry;
+  });
 
   function redirectToProfile() {
     console.log('Logged in as:', $session.entry);
-    if ($session.entry) {
+    /* if ($session.entry) {
       goto(`/user/${$session.entry}`);
     } else {
       console.log('session seems messed up!');
       goto('/user');
-    }
+    } */
   }
-
+  $: console.log('/user', activeUser);
 </script>
 
 <div>

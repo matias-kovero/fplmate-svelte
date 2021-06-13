@@ -39,7 +39,7 @@ export function removeUser(_user: localStorageUser) {
   if(!inBrowser) return;
   let users = getUsers();
   let idx = users.findIndex(u => u.id === _user.id);
-  if (idx !== 1) users.splice(idx, 1);
+  if (idx > -1) users.splice(idx, 1);
   localStorage.setItem(key, JSON.stringify(users));
 }
 /**

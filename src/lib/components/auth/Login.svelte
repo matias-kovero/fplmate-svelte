@@ -1,34 +1,26 @@
 <script>
   import Search from './UserSearch.svelte';
+  import RecentUser from './RecentUser.svelte';
   import { createEventDispatcher } from 'svelte';
   import { session } from '$app/stores';
-  import { addUser, getUsers } from './userStore';
+  import { getUsers } from './userStore';
+  import { login } from './functions';
 
   const dispatch = createEventDispatcher();
-  let error;
 
   async function selectUser(user) {
     if (user && user.id) {
-      error = undefined;
-      try {
-        const res = await fetch('/auth/login', {
-          method: 'POST',
-          body: JSON.stringify(user),
-          headers: { 'Content-Type': 'application/json' }
-        });
-        if (res.ok) {
-          addUser({ id: user.id, name: user.name, owner: user.owner }); // Add user to localStorage
-          $session.entry = user.id;
-          dispatch('success');
-        } else {
-          error = 'Error occured!';
-        }
-      } catch (err) {
-        console.log('[ERR]', err);
-        error = err.message;
+      const ok = await login(user);
+      if (ok) {
+        // Annoying, unable to update session in functions...
+        // Need to update it here
+        $session.entry = user.id;
+        dispatch('success');
       }
+      else console.log('Failed to login. Kassalla tarvitaan apua.');
     }
   }
+
   $: recentUser = getUsers();
 </script>
 
@@ -50,7 +42,7 @@
     <div class="recent-searches">
       {#if recentUser && recentUser.length}
         {#each recentUser as user}
-          <p>{user.id} | {user.name} | {user.owner}</p>
+          <RecentUser {user} select={selectUser} />
         {/each}
       {/if}
     </div>
@@ -88,6 +80,8 @@
   .recent-searches {
     display: grid;
     grid-row: auto;
+    gap: 1em;
+    position: relative;
   }
 
 </style>

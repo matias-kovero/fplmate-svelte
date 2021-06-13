@@ -1,5 +1,4 @@
 <script>
-  // Get users and list them here
   import { getUsers } from '../userStore';
 
   $: users = getUsers();
