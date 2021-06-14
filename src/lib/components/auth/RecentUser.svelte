@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let user, select;
+  export let user, select, remove;
 
   import Fav from 'carbon-icons-svelte/lib/Favorite20/Favorite20.svelte';
   import FavFill from 'carbon-icons-svelte/lib/FavoriteFilled20/FavoriteFilled20.svelte';
@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="remove">
-      <div class="content">
+      <div class="content" on:click={remove(user)}>
         <div class="remove-btn">
           <Close />
         </div>

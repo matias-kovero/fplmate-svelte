@@ -1,85 +1,94 @@
 <script>
-  export let gameweek; // gameweek id - change to the event object
+  export let gameweek;
   import { lastGameweek } from '$lib/stores/season';
-  let disabled = "javascript:void(0)";
 
   // Button states
-  $: lastGw = lastGameweek();
-  $: gwNum = gameweek.id;
-  $: prev = gwNum > 1 ? gwNum - 1 : 0;
-  $: next = gwNum < $lastGw ? gwNum + 1 : 0;
+  $: last = lastGameweek();
+  $: current = gameweek.id;
+  $: prev = current > 1 ? current - 1 : 0;
+  $: next = current < $last ? current + 1 : 0;
 
-  //$: event = getGameweek(gameweek);
-  $: deadline = new Date(gameweek.deadline_time).toDateString().slice(0, -4); // Remove last 4 digits (year)
+  // Info of current gameweek
+  $: deadline = new Date(gameweek.deadline_time).toDateString().slice(0, -4);
   $: time = new Date(gameweek.deadline_time).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
-  // Not a fan how verbose the html code is. 
-  // How to toggle prefetch?
+
 </script>
 
-<div class="controls">
-  {#if prev}
-  <a 
-    href={`/fixtures/${prev}`} 
-    sveltekit:prefetch 
-    class="prev-btn">Prev
-  </a>
-  {:else}
-  <a href={disabled} class="prev-btn disabled">Prev</a>
-  {/if}
-  <div class="gameweek-info">
-    <span>GW {gwNum}</span>
-    <span>{deadline} {time}</span>
+<div class="container">
+  <div class={prev ? `prev`: 'prev disabled'}>
+    {#if prev}
+      <a sveltekit:prefetch href={`/fixtures/${prev}`} class="btn">Prev</a>
+    {:else}
+      <div class="btn">Prev</div>
+    {/if}
   </div>
-  {#if next}
-  <a 
-    href={`/fixtures/${next}`} 
-    sveltekit:prefetch 
-    class="next-btn">Next
-  </a>
-  {:else}
-  <a href={disabled} class="next-btn disabled">Next</a>
-  {/if}
+  <div class="info">
+    <div>{deadline} {time}</div>
+    <div>GW {current}</div>
+    <!-- <div class="bg-bottom"></div> -->
+  </div>
+  <div class={next ? `next`: 'next disabled'}>
+    {#if next}
+      <a sveltekit:prefetch href={`/fixtures/${next}`} class="btn">Next</a>
+    {:else}
+      <div class="btn">Next</div>
+    {/if}
+  </div>
 </div>
 
 <style>
-  .controls {
-    font-size: 80%;
-		font-weight: 700;
-    min-height: 3.5em;
+  .container {
     display: grid;
-    background: #0000000c;
-    gap: 5px;
-    grid-template-columns: repeat(3, 1fr);
-    border-radius: 5px;
+    grid-template-columns: 80px 1fr 80px;
+    height: 50px;
+    color: var(--text1);
+    position: relative;
+    filter: drop-shadow(1px 2px 5px #0000001e);
   }
-  .controls a {
-		width: 100%;
-		height: 100%;
-		display: grid;
-		place-items: center;
-		color: var(--text1);
-    background: var(--surface2);
-		text-decoration: none;
-	}
-  a.disabled {
-    opacity: 0.5;
-    cursor: default !important;
-    pointer-events: none;
+  .prev {
+    transform: skew(15deg);
+    transform-origin: top right;
+    background-color: var(--surface4);
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 10px;
   }
-  .prev-btn {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-  }
-  .next-btn {
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-  }
-  .controls div {
-    width: 100%;
-		height: 100%;
+  .info {
+    background-color: var(--surface2);
     display: grid;
-		place-items: center;
-		color: var(--text1);
-    background: var(--surface2);
+    place-items: center;
+    font-size: small;
+  }
+  .next {
+    transform: skew(-15deg);
+    transform-origin: top left;
+    background-color: var(--surface4);
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 10px;
+  }
+  .btn {
+    height: 100%;
+    display: grid;
+    place-items: center;
+    text-decoration: none;
+  }
+  a { 
+    color: var(--text1);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .prev > .btn { transform: skew(-15deg); }
+  .next > .btn { transform: skew(15deg); }
+  .disabled > .btn {
+    filter: opacity(0.5);
+  }
+  .disabled { background-color: var(--surface3) !important;}
+  .bg-bottom {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 4px;
+  }
+  .bg-bottom {
+    bottom: 0;
+    background: #00000014;
   }
 </style>

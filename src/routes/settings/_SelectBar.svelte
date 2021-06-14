@@ -41,6 +41,7 @@
     background-color: var(--surface4);
   }
   .info {
+    background-color: var(--surface2);
     place-content: center start;
   }
   .body {
@@ -64,5 +65,15 @@
   .bg-bottom {
     bottom: 0;
     background: #00000014;
+  }
+  .icon::after {
+    content: " ";
+    position: absolute;
+    background: var(--surface4);
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    transform: skew(10deg);
+    transform-origin: bottom left;
   }
 </style>

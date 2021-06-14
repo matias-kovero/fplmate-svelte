@@ -3,7 +3,7 @@
   import RecentUser from './RecentUser.svelte';
   import { createEventDispatcher } from 'svelte';
   import { session } from '$app/stores';
-  import { getUsers } from './userStore';
+  import { getUsers, removeUser } from './userStore';
   import { login } from './functions';
 
   const dispatch = createEventDispatcher();
@@ -18,6 +18,13 @@
         dispatch('success');
       }
       else console.log('Failed to login. Kassalla tarvitaan apua.');
+    }
+  }
+
+  function remove(user) {
+    if (user) {
+      removeUser(user);
+      recentUser = getUsers(); // Will update this element
     }
   }
 
@@ -42,7 +49,7 @@
     <div class="recent-searches">
       {#if recentUser && recentUser.length}
         {#each recentUser as user}
-          <RecentUser {user} select={selectUser} />
+          <RecentUser {user} select={selectUser} {remove} />
         {/each}
       {/if}
     </div>

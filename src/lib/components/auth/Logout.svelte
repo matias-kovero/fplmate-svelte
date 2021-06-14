@@ -11,7 +11,7 @@
     if ($session.entry) {
       let ok = await logout($session.entry);
       if (ok) {
-        $session.entry = undefined;
+        $session.entry = null;
         dispatch('success');
       }
     }

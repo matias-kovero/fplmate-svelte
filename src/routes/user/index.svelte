@@ -1,7 +1,8 @@
 <script context="module">
   export async function load({ page, fetch, session }) {
     console.log('[/user load()] entry', session.entry);
-    if (session.entry) {
+    if (session.entry && !isNaN(session.entry)) {
+      console.log('Typeof entry:', typeof session.entry);
       // Redirect to user page
       return {
         status: 302,
