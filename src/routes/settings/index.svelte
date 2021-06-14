@@ -2,9 +2,29 @@
   export const prerender = true;
 </script>
 <script>
-  // Scripts needed here?
-  // We need percistent store for user settings
-  // Should we trust localStorage??
+  import Icon from 'carbon-icons-svelte/lib/PhraseSentiment20/PhraseSentiment20.svelte';
+  import Theme from 'carbon-icons-svelte/lib/ColorPalette20/ColorPalette20.svelte';
+  import Text from 'carbon-icons-svelte/lib/StringText20/StringText20.svelte';
+  import App from 'carbon-icons-svelte/lib/App20/App20.svelte';
+  import SelectBar from './_SelectBar.svelte';
+
+  const items = [
+    {
+      icon: Text,
+      content: 'Option 1',
+      path: '/settings/1'
+    },
+    {
+      icon: Theme,
+      content: 'Theme',
+      path: '/settings/theme'
+    },
+    {
+      icon: App,
+      content: 'Application memory',
+      path: '/settings/1'
+    }
+  ];
 </script>
 
 <svelte:head>
@@ -12,32 +32,15 @@
 </svelte:head>
 
 <div class="settings">
-  <div class="block shadow-1">
-    <a sveltekit:prefetch href="/settings/1">Option 1</a>
-  </div>
-  <div class="block shadow-1">
-    <a sveltekit:prefetch href="/settings/theme">Theme</a>
-  </div>
-  <div class="block shadow-1">
-    <a sveltekit:prefetch href="/settings/1">Memory</a>
-  </div>
+  {#each items as item}
+    <SelectBar {...item} />
+  {/each}
 </div>
 
 <style>
   .settings {
-    padding-top: 10%;
+    padding: 2em 1em;
     display: grid;
     gap: 2em;
-  }
-  .block {
-    /* padding: .5em; */
-    border-radius: .5em;
-    background-color: var(--surface1);
-    color: var(--text1);
-  }
-  a { 
-    color: inherit;
-    display: block;
-    padding: 1em;
   }
 </style>

@@ -1,10 +1,16 @@
 <script lang="ts">
+	import { navigating } from '$app/stores';
 	import Header from '$lib/Header/user.svelte';
 	import Footer from '$lib/Footer/index.svelte';
+	import LoadIndicator from '$lib/LoadIndicator/index.svelte';
 	//import '../app.css';
 </script>
 
 <Header />
+
+{#if $navigating}
+	<LoadIndicator />
+{/if}
 
 <main>
 	<div class="content">
