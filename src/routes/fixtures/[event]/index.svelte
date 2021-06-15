@@ -13,12 +13,15 @@
 
 <script>
   import { getGameweek } from '$lib/stores/season';
+  import { gameDays } from '$lib/utils';
+  import Gameday from '$lib/components/fixtures/Gameday.svelte';
   import Controls from '$lib/components/fixtures/Controls.svelte';
   import GwInfo from '$lib/components/fixtures/GameweekInfo.svelte';
   import Match from '$lib/components/fixtures/Match.svelte';
   export let matches, event;
 
   $: gameweek = getGameweek(event);
+  $: gamedays = gameDays(matches);
 </script>
 
 <svelte:head>
@@ -33,24 +36,23 @@
     <GwInfo {gameweek} />
   {/await}
 
-  <div class="gameweek-matches">
-    {#each matches as match (match)}
-      <Match {match} />
-    {/each}
+  <div class="gamedays">
+    {#if gamedays && gamedays.length}
+      {#each gamedays as gameday (gameday)}
+        <Gameday {gameday} />
+      {/each}
+    {/if}
   </div>
-  <div class="scroll-block"></div>
   <!-- <pre>{JSON.stringify(matches, null, 2)}</pre> -->
 </div>
 
 <style>
-  .scroll-block {
-    height: 1800px;
+  .gamedays {
+    display: grid;
+    gap: 1em;
   }
-  .gameweek, .gameweek-matches {
+  .gameweek {
     display: grid;
     gap: 2em;
-  }
-  .gameweek-matches {
-    padding-top: 2em;
   }
 </style>

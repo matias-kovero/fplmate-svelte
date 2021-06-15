@@ -14,6 +14,7 @@
       if (ok) {
         // Annoying, unable to update session in functions...
         // Need to update it here
+        console.log('[C] Login:', user.owner, user.id);
         $session.entry = user.id;
         dispatch('success');
       }

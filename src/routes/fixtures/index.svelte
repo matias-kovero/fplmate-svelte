@@ -11,9 +11,13 @@
   import { getGameweek } from '$lib/stores/season';
   import Controls from '$lib/components/fixtures/Controls.svelte';
   import GwInfo from '$lib/components/fixtures/GameweekInfo.svelte';
-  import Match from '$lib/components/fixtures/Match.svelte';
+  import { gameDays } from '$lib/utils';
+  import Gameday from '$lib/components/fixtures/Gameday.svelte';
+
   export let matches; // gameweek_matches
+
   $: gameweek = getGameweek(matches[0].event);
+  $: gamedays = gameDays(matches);
 </script>
 
 <svelte:head>
@@ -26,21 +30,23 @@
     <GwInfo {gameweek} />
   {/await}
 
-  <div class="gameweek-matches">
-    {#each matches as match (match)}
-      <Match {match} />
-    {/each}
+  <div class="gamedays">
+    {#if gamedays && gamedays.length}
+      {#each gamedays as gameday (gameday)}
+        <Gameday {gameday} />
+      {/each}
+    {/if}
   </div>
-  <!-- <p>Fixtures {$season.events.length}</p> -->
-  <!-- Add components that are dependent on fixtures -->
-  <!-- <pre>{JSON.stringify(matches, null, 2)}</pre> -->
+  
 </div>
+
 <style>
-  .gameweek, .gameweek-matches {
+  .gamedays {
+    display: grid;
+    gap: 1em;
+  }
+  .gameweek {
     display: grid;
     gap: 2em;
-  }
-  .gameweek-matches {
-    padding-top: 2em;
   }
 </style>

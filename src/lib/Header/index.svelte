@@ -15,7 +15,7 @@
 	</div>
 
 	<div class="center">
-		{#if isLogged}
+		{#if isLogged && user}
 			<div class="selected">
 				<span>{user.name}</span>
 			</div>

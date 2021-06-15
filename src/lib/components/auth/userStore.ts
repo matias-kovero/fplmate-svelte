@@ -4,6 +4,7 @@ interface localStorageUser {
   owner: string,
 };
 const key = 'userHistory';
+const fallback = { id: null, name: null, owner: null };
 /**
  * Returns basic info saved in localStorage
  */

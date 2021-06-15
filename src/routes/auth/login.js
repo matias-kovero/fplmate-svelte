@@ -4,7 +4,7 @@ export async function post({ body }) {
   console.log('[S] Login:', body.owner, body.id);
 
   const headers = {
-    'Set-Cookie': `entry=${body.value}; Path=/; HttpOnly;`// maxAge=${60*60};`
+    'Set-Cookie': `entry=${body.id}; Path=/; HttpOnly;`// maxAge=${60*60};`
   };
 
   return {
