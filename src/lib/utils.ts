@@ -69,3 +69,15 @@ export function rankPercent(rank: number, players: number): string {
   let pos = npl < 1 ? Math.round(npl*100) / 100 : Math.round(npl);
   return pos < 50 ? `Top: ${pos}%` : `Bottom: ${100-pos}%`;
 }
+/**
+ * Return abrevated value of rank. _1 decimal accuracy._
+ */
+export function rankLabel(rank: number): string {
+  if (!rank) return '.?.'; // |.?.|
+  // Could maybe use an while loop to get number count and link it to an suffix array.
+  // Not on the mood to think -> throwing an ugly 'simple' if else mayhem.
+  if (rank < 4) return rank === 1 ? '1st' : rank === 2 ? '2nd' : '3rd';
+  else if (rank < 1E3) return `${rank}th`;                      // Under 1K
+  else if (rank < 1E6) return `${+(rank /= 1E3).toFixed(1)}K`;  // Under 1M
+  else return `${+(rank /= 1E6).toFixed(1)}M`;
+}
