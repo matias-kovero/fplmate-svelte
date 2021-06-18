@@ -17,7 +17,6 @@
   import Gameday from '$lib/components/fixtures/Gameday.svelte';
   import Controls from '$lib/components/fixtures/Controls.svelte';
   import GwInfo from '$lib/components/fixtures/GameweekInfo.svelte';
-  import Match from '$lib/components/fixtures/Match.svelte';
   export let matches, event;
 
   $: gameweek = getGameweek(event);
@@ -43,7 +42,6 @@
       {/each}
     {/if}
   </div>
-  <!-- <pre>{JSON.stringify(matches, null, 2)}</pre> -->
 </div>
 
 <style>

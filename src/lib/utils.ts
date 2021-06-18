@@ -58,3 +58,14 @@ export function gameDays(matches): Gamedays[] {
     return result;
   }, []);
 }
+
+/**
+ * Return rank position to other players.  
+ * If under 1% will return 2 decimal accuracy, else 0 decimal.
+ */
+export function rankPercent(rank: number, players: number): string {
+  if (!rank || !players) return null;
+  let npl = rank / players * 100;
+  let pos = npl < 1 ? Math.round(npl*100) / 100 : Math.round(npl);
+  return pos < 50 ? `Top: ${pos}%` : `Bottom: ${100-pos}%`;
+}

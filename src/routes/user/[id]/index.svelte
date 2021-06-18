@@ -1,7 +1,6 @@
 <script context="module">
   export async function load({ page, fetch, session }) {
     const gameweek = session.season.events.find(e => e.is_current).id;
-    console.log('It is', gameweek, 'my doods.');
     const { id } = page.params;
     const [ user ] = await Promise.all([
       await fetch(`/user/${id}.json`).then((r) => r.json())
@@ -13,7 +12,8 @@
 
 <script>
   export let user, id, gameweek;
-
+  import Info from '$lib/components/users/Profile/Info.svelte';
+  import Leagues from '$lib/components/users/Profile/Leagues.svelte';
 </script>
 
 <svelte:head>
@@ -21,6 +21,8 @@
 </svelte:head>
 
 <div class="user">
+  <Info {user} />
+  <Leagues leagues={user.leagues} />
   <p>{user.name} - Check history: <a sveltekit:prefetch href={`/user/${id}/${gameweek}`}>here</a></p>
     <pre>{JSON.stringify(user, null, 2)}</pre>
 </div>

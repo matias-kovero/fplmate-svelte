@@ -1,0 +1,47 @@
+<script lang="ts">
+  import type { Entry } from "$lib/types";
+  import { session } from "$app/stores";
+  import { rankPercent } from "$lib/utils";
+
+  export let user: Entry;
+  $: rankPosition = rankPercent(user.summary_event_rank, $session.season.total_players);
+</script>
+
+<div class="title">
+  User
+</div>
+<div class="wrapper">
+  <div class="info">
+    <div class="owner">{user.player_first_name} {user.player_last_name}</div>
+    <div class="name">{user.name}</div>
+  </div>
+  <div class="gameweek">
+    <div class="score">{user.summary_event_points}</div>
+    <div class="position">{rankPosition}</div>
+  </div>
+</div>
+
+<style>
+  .wrapper {
+    background: var(--surface2);
+    border-radius: 5px;
+    padding: .5em;
+    border-top-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+    filter: drop-shadow(2px 2px 2px #0000000e);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+  }
+  .name {
+    font-size: small;
+    font-weight: 700;
+  }
+  .score {
+    font-family: 'Coiny';
+    font-size: 50px;
+  }
+  .position {
+    font-size: small;
+  }
+</style>
