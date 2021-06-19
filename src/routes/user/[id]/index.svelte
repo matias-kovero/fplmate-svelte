@@ -22,7 +22,7 @@
 
 <div class="user">
   <Info {user} />
-  <Leagues leagues={user.leagues} />
+  <Leagues leagues={user.leagues} {id} />
   <p>{user.name} - Check history: <a sveltekit:prefetch href={`/user/${id}/${gameweek}`}>here</a></p>
     <pre>{JSON.stringify(user, null, 2)}</pre>
 </div>

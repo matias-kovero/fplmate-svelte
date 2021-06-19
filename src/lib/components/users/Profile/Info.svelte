@@ -7,9 +7,7 @@
   $: rankPosition = rankPercent(user.summary_event_rank, $session.season.total_players);
 </script>
 
-<div class="title">
-  User
-</div>
+<div class="title"></div>
 <div class="wrapper">
   <div class="info">
     <div class="owner">{user.player_first_name} {user.player_last_name}</div>

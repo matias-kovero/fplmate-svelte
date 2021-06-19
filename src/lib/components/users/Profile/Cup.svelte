@@ -1,52 +1,75 @@
 <script lang="ts">
   import type { CupMatchesEntity } from "$lib/types";
-  export let match: CupMatchesEntity;
+  export let match: CupMatchesEntity, id: number;
+
+ $: isWinner = match.winner == id;
+ $: isEntry1 = match.entry_1_entry == id;
 </script>
 
-<div class="cup">
-  <div class="entry-score left">{match.entry_1_points}</div>
-  <div class="entry-1">{match.entry_1_name}</div>
-  <div class="score">VS</div>
-  <div class="entry-2">{match.entry_2_name}</div>
-  <div class="entry-score right">{match.entry_2_points}</div>
+<div class="element shadow">
+  {#if isWinner}
+    <div class="results w">W</div>
+  {:else}
+    <div class="results l">L</div>
+  {/if}
+  <div class="info">
+    {#if isEntry1}
+    <div class="players">
+      <div>{match.entry_1_name}</div>
+      <div>{match.entry_2_name}</div>
+    </div>
+    <div class="player-score">
+      <div>{match.entry_1_points}</div>
+      <div>{match.entry_2_points}</div>
+    </div>
+    {:else}
+    <div class="players">
+      <div>{match.entry_2_name}</div>
+      <div>{match.entry_1_name}</div>
+    </div>
+    <div class="player-score">
+      <div>{match.entry_2_points}</div>
+      <div>{match.entry_1_points}</div>
+    </div>
+    {/if}
+  </div>
 </div>
 
 <style>
-  .cup {
+  .element {
     display: grid;
-    grid-template-columns: 40px 1fr 40px 1fr 40px;
+    grid-template-columns: 40px 1fr;
     background: var(--surface2);
     place-items: center;
-    height: 50px;
+    height: 40px;
     border-radius: 5px;
-    filter: drop-shadow(2px 2px 2px #0000000e);
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 20px;
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 20px;
-    border: solid 1px var(--surface4);
+    padding: .25em;
   }
-  .cup div {
+  .results {
+    font-weight: 700;
+    background: var(--surface3);
     display: grid;
     place-items: center;
-    width: 100%;
     height: 100%;
+    width: 100%;
+    border-radius: 2.5px;
+    color: var(--surface2);
   }
-  .score {
-    background: var(--surface4);
+  .w { background: var(--lightgreen); }
+  .l { background: var(--indico); }
+  .info {
+    display: grid;
+    grid-template-columns: 1fr 20px;
+    height: 100%;
+    width: 100%;
+    place-items: center;
   }
-  .entry-score {
-    background: var(--surface3);
+  .info div { 
+    width: inherit;
+    font-size: small;
   }
-  .entry-1, .entry-2 {
-    font-size: 3.5vw;
+  .info  div > div:first-child {
+    font-weight: 700;
   }
-  .left { 
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 20px;
-  }
-  .right { 
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 20px;
-  }
+  .players { padding-left: 1.5em;}
 </style>

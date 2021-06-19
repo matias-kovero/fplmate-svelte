@@ -1,6 +1,27 @@
+<script context="module">
+  export async function load({ fetch, session }) {
+
+    if (!session.entry) {
+      return {
+        status: 302,
+        redirect: '/leagues/login'
+      };
+    }
+
+    const id = session.entry;
+
+    const [ user ] = await Promise.all([
+      await fetch(`/user/${id}.json`).then((r) => r.json())
+    ]);
+
+    return { props: { id, user } };
+  }
+</script>
+
 <script>
-  import { session } from '$app/stores';
+  export let id, user;
   import { currentGameweek } from '$lib/stores/season';
+  import Leagues from '$lib/components/users/Profile/Leagues.svelte';
 
   $: gameweek = currentGameweek();
 </script>
@@ -9,9 +30,8 @@
   <title>Leagues</title>
 </svelte:head>
 
-<div class="fixtures">
-  <p>The season has {$session.season.events.length} gameweeks.</p>
-  <small>Current: GW{$gameweek}</small>
+<div class="leagues">
+  <Leagues leagues={user.leagues} {id} />
 </div>
 
 <style>

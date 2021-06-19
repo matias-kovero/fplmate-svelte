@@ -1,35 +1,59 @@
 <script lang="ts">
+import { goto } from "$app/navigation";
+
   import type { Leagues } from "$lib/types";
   import { rankLabel } from '$lib/utils';
   import Dots from 'carbon-icons-svelte/lib/OverflowMenuVertical24/OverflowMenuVertical24.svelte';
+  import Icon from 'carbon-icons-svelte/lib/ChevronRight24/ChevronRight24.svelte';
   import Cup from "./Cup.svelte";
-  export let leagues: Leagues;
+  export let leagues: Leagues, id: number;
+
+  function viewLeague(id: number) {
+    if (!id) return;
+    console.log('Show me:', id);
+    goto(`/leagues/classic-${id}`);
+  }
 
 </script>
 
 <div class="wrapper">
-  <div class="title">Leagues</div>
   <div class="container-classic">
-    {#each leagues.classic as league}
-      <div class="league">
-        <div class={"rank" + (league.entry_rank < 4 ? ` r-${league.entry_rank}`: '')}>{rankLabel(league.entry_rank)}</div>
-        <div class="name">{league.name}</div>
-        <div class="btn"><Dots /></div>
-      </div>
-    {/each}
-  </div>
-  <div class="container-cup">
-    <div class="title">Cups</div>
+    <div class="title">Leagues</div>
     <div class="content">
-      {#each leagues.cup.matches as match}
-        <Cup {match} />
+      {#each leagues.classic as league}
+        <div class="league shadow">
+          <div class={"rank" + (league.entry_rank < 4 ? ` r-${league.entry_rank}`: '')}>{rankLabel(league.entry_rank)}</div>
+          <div class="name">{league.name}</div>
+          <div class="btn" on:click={() => viewLeague(league.id)}>
+            <Icon />
+          </div>
+        </div>
       {/each}
     </div>
   </div>
+
+ {#if leagues.cup.matches.length}
+    <div class="container-cup">
+      <div class="title">Cups</div>
+      <div class="content">
+        {#each leagues.cup.matches as match}
+          <Cup {match} {id} />
+        {/each}
+      </div>
+    </div>
+  {/if}
+
 </div>
 
 <style>
-  .container-classic, .container-cup, .container-cup > .content {
+  .title {
+    display: grid;
+    place-items: center;
+    padding-top: 1.5em;
+    color: var(--text1);
+    text-shadow: 0 0 1px var(--text2);
+  }
+  .container-classic, .container-classic > .content, .container-cup, .container-cup > .content {
     display: grid;
     gap: .5em;
   }
@@ -38,7 +62,6 @@
     padding: .25em;
     border-radius: 5px;
     height: 40px;
-    filter: drop-shadow(2px 2px 2px #0000000e);
     display: grid;
     grid-template-columns: 45px 1fr 30px;
     place-items: center;

@@ -2,16 +2,36 @@
 	import { page, session } from '$app/stores';
 	import { userInfo } from '$lib/components/auth/userStore';
 	import logo from './logo.png';
+	import { goto } from '$app/navigation';
+
+	/* ICONS */
+	import Logout from '$lib/components/auth/Logout.svelte';
+	import IconBack from 'carbon-icons-svelte/lib/ArrowLeft24/ArrowLeft24.svelte';
 
 	$: isLogged = !!$session.entry;
 	$: user = isLogged ? userInfo($session.entry) : null;
+
+	// Maybe an retarded way of knowing where we are in the weepbage.
+	$: isLeague = $page.path.startsWith('/leagues');
+	$: deepLeague = $page.path.startsWith('/leagues/') && $page.path !== '/leagues/login'; // Dumb
+	/* helper functions */
+	function redictToLogin() {
+		if (isLeague) goto('/leagues');
+		else goto('/user');
+	}
 </script>
 
 <header>
 	<div class="corner">
-		<a href="/">
-			<img src={logo} alt="FPLMate" />
-		</a>
+		{#if deepLeague}
+			<a sveltekit:prefetch href="/leagues">
+				<IconBack aria-labelledby="Back" />
+			</a>
+		{:else}
+			<a href="/">
+				<img src={logo} alt="FPLMate" />
+			</a>
+		{/if}
 	</div>
 
 	<div class="center">
@@ -25,7 +45,11 @@
 			</div>
 		{/if}
 	</div>
-	<div class="corner"></div>
+	{#if isLogged}
+	<div class="corner">
+		<Logout on:success={redictToLogin} />
+	</div>
+	{/if}
 </header>
 
 <style>
