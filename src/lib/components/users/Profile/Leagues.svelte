@@ -3,7 +3,6 @@ import { goto } from "$app/navigation";
 
   import type { Leagues } from "$lib/types";
   import { rankLabel } from '$lib/utils';
-  import Dots from 'carbon-icons-svelte/lib/OverflowMenuVertical24/OverflowMenuVertical24.svelte';
   import Icon from 'carbon-icons-svelte/lib/ChevronRight24/ChevronRight24.svelte';
   import Cup from "./Cup.svelte";
   export let leagues: Leagues, id: number;

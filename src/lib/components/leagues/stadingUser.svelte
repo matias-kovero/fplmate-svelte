@@ -1,9 +1,14 @@
 <script lang="ts">
   export let user: import("$lib/types").ResultsEntity;
+  $: isTop3 = user.rank <= 3;
 </script>
 
 <div class="container">
-  <div class="position">{user.rank}</div>
+  {#if isTop3}
+    <div class={`position r-${user.rank}`}>{user.rank}</div>
+  {:else}
+    <div class="position">{user.rank}</div>
+  {/if}
   <div class="info">
     <div class="name">{user.entry_name}</div>
     <div class="owner">{user.player_name}</div>
@@ -19,14 +24,21 @@
     height: 40px;
     place-items: center;
     border-bottom: 1px solid var(--surface1);
-    /* background: var(--surface2); */
   }
   .info {
-    /* text-align: left; */
     width: 100%;
-    /* font-size: 80%; */
   }
   .owner {
     font-size: small;
   }
+  .position {
+    height: 34px;
+    width: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 2.5px;
+  }
+  .r-1 { background-color: var(--gold); }
+  .r-2 { background-color: var(--silver); }
+  .r-3 { background-color: var(--bronze); }
 </style>
