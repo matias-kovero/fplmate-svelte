@@ -87,6 +87,9 @@
 	--neonyellow: #EBFF00;
 	--gray: #E2E2E2;
 	--red: #C0020D;
+  --gold: #ffd96d;
+  --silver: #e7ecef;
+  --bronze: #e2b690;
 }
 
 @media (prefers-color-scheme: dark) {

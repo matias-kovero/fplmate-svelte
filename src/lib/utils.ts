@@ -70,14 +70,15 @@ export function rankPercent(rank: number, players: number): string {
   return pos < 50 ? `Top: ${pos}%` : `Bottom: ${100-pos}%`;
 }
 /**
- * Return abrevated value of rank. _1 decimal accuracy._
+ * Return abrevated value of rank. _1 decimal accuracy._  
+ * _Longest strings on xxx.xK_
  */
 export function rankLabel(rank: number): string {
   if (!rank) return '.?.'; // |.?.|
-  // Could maybe use an while loop to get number count and link it to an suffix array.
   // Not on the mood to think -> throwing an ugly 'simple' if else mayhem.
+  // Potentially, we could have only ifs as they return, but for clarity keeping elses.
   if (rank < 4) return rank === 1 ? '1st' : rank === 2 ? '2nd' : '3rd';
-  else if (rank < 1E3) return `${rank}th`;                      // Under 1K
-  else if (rank < 1E6) return `${+(rank /= 1E3).toFixed(1)}K`;  // Under 1M
+  else if (rank < 1E3) return `${rank}th`; // 1E3 == 10^3 == 1K
+  else if (rank < 1E6) return `${+(rank /= 1E3).toFixed(1)}K`; // 10^6 == 1M
   else return `${+(rank /= 1E6).toFixed(1)}M`;
 }

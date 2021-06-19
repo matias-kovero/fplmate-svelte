@@ -26,12 +26,15 @@
     background: var(--surface2);
     border-radius: 5px;
     padding: .5em;
-    border-top-right-radius: 25px;
-    border-bottom-left-radius: 25px;
+    border-top-right-radius: 50px;
+    border-bottom-left-radius: 50px;
     filter: drop-shadow(2px 2px 2px #0000000e);
     display: grid;
     grid-template-columns: 1fr 1fr;
     place-items: center;
+  }
+  .info {
+    height: 100%;
   }
   .name {
     font-size: small;
