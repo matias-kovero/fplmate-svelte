@@ -1,9 +1,12 @@
 <script lang="ts">
+  import { session } from '$app/stores';
   export let user: import("$lib/types").ResultsEntity;
   $: isTop3 = user.rank <= 3;
+  $: isLocal = user.entry == $session.entry;
+  
 </script>
 
-<div class="container">
+<div class={isLocal ? 'container local' : 'container'}>
   {#if isTop3}
     <div class={`position r-${user.rank}`}>{user.rank}</div>
   {:else}
@@ -24,6 +27,9 @@
     height: 40px;
     place-items: center;
     border-bottom: 1px solid var(--surface1);
+  }
+  .local {
+    background: #c097ff94;
   }
   .info {
     width: 100%;

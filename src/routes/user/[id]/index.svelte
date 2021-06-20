@@ -2,18 +2,19 @@
   export async function load({ page, fetch, session }) {
     const gameweek = session.season.events.find(e => e.is_current).id;
     const { id } = page.params;
-    const [ user ] = await Promise.all([
-      await fetch(`/user/${id}.json`).then((r) => r.json())
+    const [ user, roster ] = await Promise.all([
+      await fetch(`/user/${id}.json`).then((r) => r.json()),
+      await fetch(`/user/${id}/${gameweek}.json`).then((r) => r.json())
     ]);
 
-    return { props: { id, user, gameweek } };
+    return { props: { id, user, gameweek, roster } };
   }
 </script>
 
 <script>
-  export let user, id, gameweek;
+  export let user, roster, id, gameweek;
   import Info from '$lib/components/users/Profile/Info.svelte';
-  import Leagues from '$lib/components/users/Profile/Leagues.svelte';
+  import Roster from '$lib/components/users/Roster.svelte';
 </script>
 
 <svelte:head>
@@ -22,13 +23,12 @@
 
 <div class="user">
   <Info {user} />
-  <Leagues leagues={user.leagues} {id} />
-  <p>{user.name} - Check history: <a sveltekit:prefetch href={`/user/${id}/${gameweek}`}>here</a></p>
-    <pre>{JSON.stringify(user, null, 2)}</pre>
+  <Roster picks={roster.picks} />
 </div>
 
 <style>
-  pre {
-    font-size: 10px;
+  .user {
+    display: grid;
+    gap: 1em;
   }
 </style>

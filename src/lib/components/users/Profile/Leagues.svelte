@@ -9,7 +9,6 @@ import { goto } from "$app/navigation";
 
   function viewLeague(id: number) {
     if (!id) return;
-    console.log('Show me:', id);
     goto(`/leagues/classic-${id}`);
   }
 
@@ -73,7 +72,7 @@ import { goto } from "$app/navigation";
     height: 100%;
     width: 100%;
     border-radius: 2.5px;
-    font-size: 3.5vw;
+    font-size: 12px;
   }
   .name {
     width: 100%;

@@ -5,8 +5,9 @@
 	import { goto } from '$app/navigation';
 
 	/* ICONS */
+	import NavBack from '$lib/components/users/Profile/NavBack.svelte';
+	import NavSearch from '$lib/components/users/Profile/NavSearch.svelte';
 	import Logout from '$lib/components/auth/Logout.svelte';
-	import IconBack from 'carbon-icons-svelte/lib/ArrowLeft24/ArrowLeft24.svelte';
 
 	$: isLogged = !!$session.entry;
 	$: user = isLogged ? userInfo($session.entry) : null;
@@ -24,9 +25,7 @@
 <header>
 	<div class="corner">
 		{#if deepLeague}
-			<a sveltekit:prefetch href="/leagues">
-				<IconBack aria-labelledby="Back" />
-			</a>
+			<NavBack />
 		{:else}
 			<a href="/">
 				<img src={logo} alt="FPLMate" />
@@ -45,11 +44,15 @@
 			</div>
 		{/if}
 	</div>
-	{#if isLogged}
+
 	<div class="corner">
-		<Logout on:success={redictToLogin} />
+		{#if isLogged}
+			<Logout on:success={redictToLogin} />
+		{:else}
+			<NavSearch />
+		{/if}
 	</div>
-	{/if}
+
 </header>
 
 <style>

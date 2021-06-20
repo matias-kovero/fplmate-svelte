@@ -1,10 +1,12 @@
 <script lang="ts">
   import type { Entry } from "$lib/types";
   import { session } from "$app/stores";
-  import { rankPercent } from "$lib/utils";
+  import { rankLabel, rankPercent } from "$lib/utils";
 
   export let user: Entry;
   $: rankPosition = rankPercent(user.summary_event_rank, $session.season.total_players);
+  $: overallLabel = rankLabel(user.summary_overall_rank);
+  $: gwLabel = rankLabel(user.summary_event_rank);
 </script>
 
 <div class="title"></div>
@@ -12,6 +14,11 @@
   <div class="info">
     <div class="owner">{user.player_first_name} {user.player_last_name}</div>
     <div class="name">{user.name}</div>
+    <br />
+    <div class="rank-score">
+      <div class="overall">Overall: {overallLabel}</div>
+      <div class="gw">GW: {gwLabel}</div>
+    </div>
   </div>
   <div class="gameweek">
     <div class="score">{user.summary_event_points}</div>
@@ -43,6 +50,11 @@
     font-size: 50px;
   }
   .position {
+    font-size: small;
+  }
+
+  .rank-score {
+    font-weight: 700;
     font-size: small;
   }
 </style>

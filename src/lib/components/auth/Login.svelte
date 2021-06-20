@@ -1,6 +1,6 @@
 <script>
   import Search from './UserSearch.svelte';
-  import RecentUser from './RecentUser.svelte';
+  import HistoryUser from './UserHistory.svelte';
   import { createEventDispatcher } from 'svelte';
   import { session } from '$app/stores';
   import { getUsers, removeUser } from './userStore';
@@ -50,7 +50,7 @@
     <div class="recent-searches">
       {#if recentUser && recentUser.length}
         {#each recentUser as user}
-          <RecentUser {user} select={selectUser} {remove} />
+          <HistoryUser {user} select={selectUser} {remove} />
         {/each}
       {/if}
     </div>
@@ -88,7 +88,7 @@
   .recent-searches {
     display: grid;
     grid-row: auto;
-    gap: 1em;
+    gap: .5em;
     position: relative;
   }
 

@@ -1,18 +1,14 @@
 <script lang="ts">
 	import { page, session } from '$app/stores';
-	import logo from './logo.png';
-  import BackIcon from 'carbon-icons-svelte/lib/ArrowLeft32/ArrowLeft32.svelte';
+	import { userInfo } from '$lib/components/auth/userStore';
 	import Logout from '$lib/components/auth/Logout.svelte';
-	import UserSwitcher from '$lib/components/auth/UserSwitcher/index.svelte';
+	import NavHistory from '$lib/components/users/Profile/NavHistory.svelte';
+	import NavBack from '$lib/components/users/Profile/NavBack.svelte';
+	import logo from './logo.png';
 	import { goto } from '$app/navigation';
-  // This is under every page under /users/
-  $: previous = $page.path.substring(0, $page.path.lastIndexOf('/'));
-	$: loggedIn = !!$session.entry;
 
-	function removeActiveUser() {
-		console.log($page);
-		//$session.entry = null;
-	}
+	$: isLogged = !!$session.entry;
+	$: user = isLogged ? userInfo($session.entry) : null;
 
 	function redictToLogin() {
 		goto('/user');
@@ -21,16 +17,33 @@
 </script>
 
 <header>
-  <div class="corner">
-    <a sveltekit:prefetch href={previous} on:click={removeActiveUser}>
-			<BackIcon aria-labelledby="Back" />
-		</a>
+	<div class="corner">
+		{#if isLogged}
+			{#if $page.params.gameweek}
+				<NavBack />
+			{:else}
+				<NavHistory />
+			{/if}
+		{:else}
+			<a href="/">
+				<img src={logo} alt="FPLMate" />
+			</a>
+		{/if}
 	</div>
 
 	<div class="center">
-		<UserSwitcher />
+		{#if isLogged && user}
+			<div class="selected">
+				<span>{user.name}</span>
+			</div>
+		{:else}
+			<div>
+				<a href="/user">Select profile</a>
+			</div>
+		{/if}
 	</div>
-	{#if loggedIn}
+
+	{#if isLogged}
 	<div class="corner">
 		<Logout on:success={redictToLogin} />
 	</div>
@@ -44,13 +57,16 @@
 		place-items: center;
 		/*justify-content: space-between; */
 		background-color: var(--surface2);
+		height: var(--header-height);
 	}
 	.corner {
 		width: 3em;
 		height: 3em;
 	}
-	.center { height: 3em; }
-  .corner a {
+	.selected {
+		font-weight: 700;
+	}
+  .corner a, .center a {
 		display: flex;
 		align-items: center;
 		justify-content: center;
