@@ -3,11 +3,11 @@
   import IconAvg from 'carbon-icons-svelte/lib/Events24/Events24.svelte';
   import IconHigh from 'carbon-icons-svelte/lib/TrophyFilled32/TrophyFilled32.svelte';
   import IconArrow from 'carbon-icons-svelte/lib/ChevronRight24/ChevronRight24.svelte';
-
+  $: invalid_data = gameweek.average_entry_score <= 0;
   $: hurl = `/user/${gameweek.highest_scoring_entry}`;
 </script>
 
-<div class="container">
+<div class="container" class:hidden={invalid_data}>
   <div class="skew">
     <div class="row">
       <div class="title"><span>AVG</span></div>
@@ -31,6 +31,9 @@
 </div>
 
 <style>
+  .hidden {
+    display: none;
+  }
   .container {
     height: 60px;
   }

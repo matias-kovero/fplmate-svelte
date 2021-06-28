@@ -9,7 +9,7 @@
   <div class="title">
     <span>{weekday} {day}</span>
   </div>
-  <div class="matches">
+  <div class="matches shadow">
     {#each gameday.matches as match}
       <Match {match} />
     {/each}
@@ -42,7 +42,7 @@
     width: 100%;
     display: grid;
     border-radius: 5px;
-    border-top-left-radius: 0px;
-    filter: drop-shadow(0px 2px 4px #00000015);
+    /* border-top-left-radius: 0px; */
+    /* filter: drop-shadow(0px 2px 4px #00000015); */
   }
 </style>

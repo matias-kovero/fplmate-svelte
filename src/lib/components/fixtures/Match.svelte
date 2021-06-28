@@ -61,7 +61,6 @@
 
 <style>
   .match-container {
-    background-color: var(--surface2);
     display: grid;
     grid-template-columns: minmax(100px, 45%) minmax(80px, 10%) minmax(100px, 45%);
     padding: .3em;
