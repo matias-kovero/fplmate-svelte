@@ -13,12 +13,13 @@
     import { getContext } from 'svelte';
     const { match } = getContext('match');
   */
-
   $: team_h = getTeam(match.team_h);
   $: team_a = getTeam(match.team_a);
-
   $: badge_h = getTeamBadge($team_h.code);
   $: badge_a = getTeamBadge($team_a.code);
+
+  $: live = !match.finished && !match.finished_provisional;
+  $: kickoff_label = new Date(match.kickoff_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 </script>
 
 <div class="match-container">
@@ -33,10 +34,18 @@
       />
     </div>
   </div>
-  <div class="score">
-    <div class="score-end">{match.team_h_score}</div>
-    <div class="score-end">{match.team_a_score}</div>
+  {#if match.started}
+  <div class="score shadow">
+    <div class="score-end">{match.team_h_score || 0}</div>
+    <div class="divider"></div>
+    <div class="score-end">{match.team_a_score || 0}</div>
+    {#if live}
+      <div class="live-notif">LIVE</div>
+    {/if}
   </div>
+  {:else}
+  <div class="kickoff-time shadow">{kickoff_label}</div>
+  {/if}
   <div class="team-a">
     <div class="logo">
       <img 
@@ -79,10 +88,15 @@
   }
   .score {
     display: grid;
+    height: 100%;
+    width: 60%;
     place-items: center;
-    grid-template-columns: auto auto;
-    padding: .4em;
+    grid-template-columns: auto 1px auto;
+    /* padding: .4em; */
     background: var(--darkpurple);
+    position: relative;
+    border-radius: 5px;
+    font-size: small;
   }
   .score-end {
     padding: .3em .4em;
@@ -92,7 +106,31 @@
     background: var(--darkpurple);
     color: #fff;
   }
-  .score-end:first-child {
-    border-right: 1px solid hsla(0, 0%, 100%, .5);
+  .divider {
+    content: "";
+    background: hsla(0, 0%, 100%, .5);
+    width: 1px;
+    height: 70%;
+  }
+  .live-notif {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: var(--lightgreen);
+    color: #000; /* var(--text1); */
+    font-size: 7px;
+    font-weight: 700;
+    padding: 0 .1em;
+  }
+  .kickoff-time {
+    font-size: x-small;
+    color: var(--text1);
+    height: 100%;
+    width: 60%;
+    margin: auto;
+    display: grid;
+    place-items: center;
+    background: var(--surface3);
+    border-radius: 5px;
   }
 </style>
