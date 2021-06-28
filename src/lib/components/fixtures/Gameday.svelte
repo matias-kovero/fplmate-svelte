@@ -5,11 +5,13 @@
   $: [weekday, month, day, year] = gameday.label.split(' ');
 </script>
 
-<div class="container">
+<div class="container shadow">
   <div class="title">
+    <div></div>
     <span>{weekday} {day}</span>
+    <div></div>
   </div>
-  <div class="matches shadow">
+  <div class="matches">
     {#each gameday.matches as match}
       <Match {match} />
     {/each}
@@ -18,21 +20,37 @@
 
 <style>
   .container {
-    /* background: var(--surface2); */
     display: grid;
-    grid-template-rows: auto auto;
     grid-template-columns: auto;
+    grid-template-rows: auto auto;
   }
   .title {
     font-weight: 700;
     font-size: small;
-    /* z-index: 2; */
-    filter: drop-shadow(0px 2px 4px #00000015);
-    /* margin-bottom: -.1em; */
+    display: flex;
+    justify-content: center;
+    /* grid-template-columns: minmax(100px, 45%) minmax(80px, 10%) minmax(100px, 45%); */
+    position: relative;
+    justify-content: center;
+  }
+  .title div {
+    background: var(--surface2);
+    width: 40px;
+    z-index: -1;
+  }
+  .title div:first-of-type {
+    transform: skewX(-30deg) translateY(0px) translateX(25px);
+    border-top-left-radius: 5px;
+  }
+  .title div:last-of-type {
+    transform: skewX(30deg) translateY(0px) translateX(-25px);
+    border-top-right-radius: 5px;
   }
   .title span {
     padding: .3em .3em;
     text-transform: uppercase;
+    display: grid;
+    place-items: center;
     background: var(--surface2);
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
@@ -42,7 +60,5 @@
     width: 100%;
     display: grid;
     border-radius: 5px;
-    /* border-top-left-radius: 0px; */
-    /* filter: drop-shadow(0px 2px 4px #00000015); */
   }
 </style>
