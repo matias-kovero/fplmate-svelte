@@ -9,15 +9,18 @@
 
 <script>
   import { getGameweek } from '$lib/stores/season';
+  import { gameDays } from '$lib/utils';
   import Controls from '$lib/components/fixtures/Controls.svelte';
   import GwInfo from '$lib/components/fixtures/GameweekInfo.svelte';
-  import { gameDays } from '$lib/utils';
   import Gameday from '$lib/components/fixtures/Gameday.svelte';
 
-  export let matches; // gameweek_matches
-
+  export let matches;
+  /* Get given gameweek */
   $: gameweek = getGameweek(matches[0].event);
+  /* Gamedays of said gameweek */
   $: gamedays = gameDays(matches);
+  /* Nav state, is an matche visible */
+  $: showMatch = false;
 </script>
 
 <svelte:head>
@@ -37,7 +40,6 @@
       {/each}
     {/if}
   </div>
-  
 </div>
 
 <style>

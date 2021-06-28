@@ -74,7 +74,7 @@ export function rankPercent(rank: number, players: number): string {
  * _Longest strings on xxx.xK_
  */
 export function rankLabel(rank: number): string {
-  if (!rank) return '.?.'; // |.?.|
+  if (!rank) return '?'; // |.?.|
   // Not on the mood to think -> throwing an ugly 'simple' if else mayhem.
   // Potentially, we could have only ifs as they return, but for clarity keeping elses.
   if (rank < 4) return rank === 1 ? '1st' : rank === 2 ? '2nd' : '3rd';

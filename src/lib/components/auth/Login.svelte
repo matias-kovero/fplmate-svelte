@@ -1,12 +1,19 @@
 <script>
   import Search from './UserSearch.svelte';
-  import HistoryUser from './UserHistory.svelte';
   import { createEventDispatcher } from 'svelte';
   import { session } from '$app/stores';
   import { getUsers, removeUser } from './userStore';
   import { login } from './functions';
+  /* Transation */
+  import { fade, slide } from 'svelte/transition';
+  import { flip } from 'svelte/animate';
+  /* Recent Users */
+  import IconButton from '$lib/UI/IconButton.svelte';
+  import IconClose from 'carbon-icons-svelte/lib/Close20/Close20.svelte';
+  import IconUser from 'carbon-icons-svelte/lib/UserFilled20/UserFilled20.svelte';
 
   const dispatch = createEventDispatcher();
+  let recentUser = getUsers();
 
   async function selectUser(user) {
     if (user && user.id) {
@@ -25,11 +32,9 @@
   function remove(user) {
     if (user) {
       removeUser(user);
-      recentUser = getUsers(); // Will update this element
+      recentUser = recentUser.filter(u => u.id !== user.id);
     }
   }
-
-  $: recentUser = getUsers();
 </script>
 
 <div class="login-container">
@@ -49,8 +54,21 @@
     </div>
     <div class="recent-searches">
       {#if recentUser && recentUser.length}
-        {#each recentUser as user}
-          <HistoryUser {user} select={selectUser} {remove} />
+        {#each recentUser as user (user)}
+        <div animate:flip="{{duration: 200}}" out:slide|local>
+          <IconButton>
+            <svelte:fragment slot="icon">
+              <IconUser class="shadow" />
+            </svelte:fragment>
+            <div slot="content" on:click={() => selectUser(user)} in:fade|local out:fade>
+              <div class="bold">{user.name}</div>
+              <div>{user.owner}</div>
+            </div>
+            <div slot="btn" on:click={() => remove(user)}>
+              <IconClose class="shadow" />
+            </div>
+          </IconButton>
+        </div>
         {/each}
       {/if}
     </div>
@@ -91,5 +109,6 @@
     gap: .5em;
     position: relative;
   }
+  .bold { font-weight: 700; }
 
 </style>

@@ -244,13 +244,19 @@ footer {
 	background: rgba(50, 50, 50, 0.2);
 	border-radius: 5px;
 }
-
+/* USER SEARCH */
 .search-element {
-  background-color: var(--surface1);
+  /* background-color: var(--surface1); */
+  background: var(--surface2);
+  /* padding: .25em; */
+  border-radius: 5px;
 }
 .search-input {
-  background-color: var(--surface1);
-  border: 1px solid hsl(var(--brand-hue) 10% 50% / 15%);
+  background-color: var(--surface2);
+  border: 0px solid hsl(var(--brand-hue) 10% 50% / 15%);
+  border-radius: 5px;
+  border-style: none;
+  outline: none;
 }
 .search-dropdown {
   background-color: var(--surface1) !important;

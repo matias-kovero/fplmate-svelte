@@ -1,6 +1,6 @@
 <script context="module">
   export async function load({ page, fetch, session }) {
-    const gameweek = session.season.events.find(e => e.is_current).id;
+    const gameweek = session.season.events.find(e => e.is_current)?.id || 0;
     const { id } = page.params;
     const [ user, roster ] = await Promise.all([
       await fetch(`/user/${id}.json`).then((r) => r.json()),
@@ -23,7 +23,9 @@
 
 <div class="user">
   <Info {user} />
-  <Roster picks={roster.picks} />
+  {#if roster && roster.picks}
+    <Roster picks={roster.picks} />
+  {/if}
 </div>
 
 <style>

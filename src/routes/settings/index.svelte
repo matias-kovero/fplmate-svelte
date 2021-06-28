@@ -2,11 +2,12 @@
   export const prerender = true;
 </script>
 <script>
-  import Icon from 'carbon-icons-svelte/lib/PhraseSentiment20/PhraseSentiment20.svelte';
   import Theme from 'carbon-icons-svelte/lib/ColorPalette20/ColorPalette20.svelte';
   import Text from 'carbon-icons-svelte/lib/StringText20/StringText20.svelte';
   import App from 'carbon-icons-svelte/lib/App20/App20.svelte';
-  import SelectBar from './_SelectBar.svelte';
+
+  import IconButton from '$lib/UI/IconButton.svelte';
+  import Icon from 'carbon-icons-svelte/lib/ChevronRight24/ChevronRight24.svelte';
 
   const items = [
     {
@@ -33,14 +34,24 @@
 
 <div class="settings">
   {#each items as item}
-    <SelectBar {...item} />
+    <IconButton>
+      <svelte:fragment slot="icon">
+        <svelte:component this={item.icon} class="shadow" />
+      </svelte:fragment>
+      <svelte:fragment slot="content">
+        <a sveltekit:prefetch href={`${item.path}`}>{item.content}</a>
+      </svelte:fragment>
+      <svelte:fragment slot="btn">
+        <Icon class="shadow" />
+      </svelte:fragment>
+    </IconButton>
   {/each}
 </div>
 
 <style>
   .settings {
-    padding: 2em 1em;
+    padding: 2em .5em;
     display: grid;
-    gap: 2em;
+    gap: 1.5em;
   }
 </style>

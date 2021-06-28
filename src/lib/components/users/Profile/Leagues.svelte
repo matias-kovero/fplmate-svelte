@@ -1,10 +1,11 @@
 <script lang="ts">
-import { goto } from "$app/navigation";
-
+  import { goto } from "$app/navigation";
   import type { Leagues } from "$lib/types";
   import { rankLabel } from '$lib/utils';
   import Icon from 'carbon-icons-svelte/lib/ChevronRight24/ChevronRight24.svelte';
   import Cup from "./Cup.svelte";
+  import IconButton from '$lib/UI/IconButton.svelte';
+
   export let leagues: Leagues, id: number;
 
   function viewLeague(id: number) {
@@ -19,13 +20,17 @@ import { goto } from "$app/navigation";
     <div class="title">Leagues</div>
     <div class="content">
       {#each leagues.classic as league}
-        <div class="league shadow">
-          <div class={"rank" + (league.entry_rank < 4 ? ` r-${league.entry_rank}`: '')}>{rankLabel(league.entry_rank)}</div>
-          <div class="name">{league.name}</div>
-          <div class="btn" on:click={() => viewLeague(league.id)}>
+        <IconButton>
+          <svelte:fragment slot="icon">
+            <div class={(league.entry_rank < 4 ? `rank r-${league.entry_rank}`: 'rank')}>{rankLabel(league.entry_rank)}</div>
+          </svelte:fragment>
+          <svelte:fragment slot="content">
+            <div>{league.name}</div>
+          </svelte:fragment>
+          <div slot="btn" class="btn" on:click={() => viewLeague(league.id)}>
             <Icon />
           </div>
-        </div>
+        </IconButton>
       {/each}
     </div>
   </div>
@@ -55,29 +60,9 @@ import { goto } from "$app/navigation";
     display: grid;
     gap: .5em;
   }
-  .league {
-    background: var(--surface2);
-    padding: .25em;
-    border-radius: 5px;
-    height: 40px;
-    display: grid;
-    grid-template-columns: 45px 1fr 30px;
-    place-items: center;
-  }
   .rank {
     font-weight: 700;
-    background: var(--surface3);
-    display: grid;
-    place-items: center;
-    height: 100%;
-    width: 100%;
-    border-radius: 2.5px;
     font-size: 12px;
-  }
-  .name {
-    width: 100%;
-    text-align: left;
-    padding-left: 1em;
   }
   .btn {
     color: var(--surface4);

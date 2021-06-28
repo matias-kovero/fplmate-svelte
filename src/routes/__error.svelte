@@ -2,7 +2,7 @@
 	export function load({ error, status }) {
 		return {
 			props: {
-				//message: `${status}: ${error.message}`,
+				message: `${error.message}`,
         status: `${status}`
 			}
 		};
@@ -10,7 +10,7 @@
 </script>
 
 <script>
-	export let status;
+	export let status, message;
 	$: numArr = [...status] || [''];
 </script>
 
@@ -22,6 +22,7 @@
 	</div>
 	<div class="error-text">
 		<small>Sorry, this page was not found</small>
+		<small>{message}</small>
 		<p>
 			<a sveltekit:prefetch href="/">Go back</a>
 		</p>

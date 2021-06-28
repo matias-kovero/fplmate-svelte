@@ -1,5 +1,6 @@
 <script>
-  import Icon from 'carbon-icons-svelte/lib/User24/User24.svelte';
+  import IconUser from 'carbon-icons-svelte/lib/User24/User24.svelte';
+  import IconSearch from 'carbon-icons-svelte/lib/Search20/Search20.svelte';
   import AutoComplete from 'simple-svelte-autocomplete';
   import * as api from '$lib/api';
 
@@ -33,47 +34,49 @@
 
 <div class="user-search">
   <div class="login-icon">
-    <Icon />
+    <IconUser />
   </div>
   {#if error}<p>{error}</p>{/if}
-  <AutoComplete 
-    searchFunction={getUsers} 
-    delay=500
-    localSearch=false 
-    labelFieldName="label" 
-    valueFieldName="value" 
-    bind:selectedItem={selected}
-    minCharactersToSearch={3}
-    hideArrow={true}
-    showClear={false}
-    placeholder="Team ID/Name or owner"
-    onChange={async () => selectUser(selected)}
-    className="search-element"
-    inputClassName="search-input"
-    dropdownClassName="search-dropdown"
-    >
-    <div slot="item" let:item>
-      <div class="user-option">
-        <div class="search-owner">
-          {item.owner}
-        </div>
-        <div class="search-team">
-          {item.team}
+  <div class="search-bar shadow">
+    <AutoComplete 
+      searchFunction={getUsers} 
+      delay=500
+      localSearch=false 
+      labelFieldName="label" 
+      valueFieldName="value" 
+      bind:selectedItem={selected}
+      minCharactersToSearch={3}
+      hideArrow={true}
+      showClear={false}
+      placeholder="Team ID/Name or owner"
+      onChange={async () => selectUser(selected)}
+      className="search-element"
+      inputClassName="search-input"
+      dropdownClassName="search-dropdown"
+      >
+      <div slot="item" let:item>
+        <div class="user-option">
+          <div class="search-owner">
+            {item.owner}
+          </div>
+          <div class="search-team">
+            {item.team}
+          </div>
         </div>
       </div>
-    </div>
-
-    <div slot="no-results" let:noResultsText>
-      <span>{noResultsText}</span>
-    </div>
-
-    <div slot="loading" let:loadingText>
-      <span>{loadingText}</span>
-    </div>
-  </AutoComplete>
+      <div slot="no-results" let:noResultsText>{noResultsText}</div>
+      <div slot="loading" let:loadingText>{loadingText}</div>
+    </AutoComplete>
+    <div class="search-icon"><IconSearch /></div>
+  </div>
 </div>
 
 <style>
+  .user-search {
+    width: 100%;
+    max-width: 400px;
+    z-index: 10;
+  }
   .login-icon {
     display: grid;
     place-items: center;
@@ -83,6 +86,20 @@
   .user-option {
     font-size: smaller;
     color: var(--text1);
+  }
+  .search-bar {
+    background: var(--surface2);
+    display: grid;
+    border-radius: 5px;
+    grid-template-columns: 1fr 40px;
+  }
+  .search-icon {
+    background: var(--surface4);
+    border-top-right-radius: inherit;
+    border-bottom-right-radius: inherit;
+    display: grid;
+    place-items: center;
+    color: var(--text2);
   }
   .search-owner {
     font-weight: 700;
