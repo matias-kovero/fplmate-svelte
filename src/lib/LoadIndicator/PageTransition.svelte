@@ -10,8 +10,15 @@
 </script>
 
 {#key refresh}
+  <slot name="static"></slot>
   <div in:fly={{ x: -5, duration, delay }}
     out:fade>
     <slot />
   </div>
 {/key}
+
+<style>
+  div {
+    padding-top: 2em;
+  }
+</style>

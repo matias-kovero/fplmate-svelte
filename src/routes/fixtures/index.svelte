@@ -3,7 +3,7 @@
     const [ matches ] = await Promise.all([
       await fetch(`/fixtures.json`).then((r) => r.json())
     ]);
-    return { props: { matches } };
+    return { props: { matches, key: page.path } };
   }
 </script>
 
@@ -13,8 +13,9 @@
   import Controls from '$lib/components/fixtures/Controls.svelte';
   import GwInfo from '$lib/components/fixtures/GameweekInfo.svelte';
   import Gameday from '$lib/components/fixtures/Gameday.svelte';
+  import PageTransition from '$lib/LoadIndicator/PageTransition.svelte';
 
-  export let matches;
+  export let matches, key;
   /* Get given gameweek */
   $: gameweek = getGameweek(matches[0].event);
   /* Gamedays of said gameweek */
@@ -27,7 +28,23 @@
   <title>Fixtures</title>
 </svelte:head>
 
-<div class="gameweek">
+<PageTransition refresh={key}>
+  <div slot="static">
+    {#await $gameweek then gameweek}
+      <Controls {gameweek} />
+      <GwInfo {gameweek} />
+    {/await}
+  </div>
+  <div class="gamedays">
+    {#if gamedays && gamedays.length}
+      {#each gamedays as gameday (gameday)}
+        <Gameday {gameday} />
+      {/each}
+    {/if}
+  </div>
+</PageTransition>
+
+<!-- <div class="gameweek">
   {#await $gameweek then gameweek}
     <Controls {gameweek} />
     <GwInfo {gameweek} />
@@ -40,7 +57,7 @@
       {/each}
     {/if}
   </div>
-</div>
+</div> -->
 
 <style>
   .gamedays {

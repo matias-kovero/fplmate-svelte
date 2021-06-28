@@ -14,6 +14,7 @@
 	// Get FPL season metadata
 	import { session } from '$app/stores';
 	export let key; // Used to identify page change for transition
+	$: console.log($$slots);
 </script>
 
 <Header />
@@ -22,15 +23,16 @@
 	<LoadIndicator />
 {/if}
 <main>
-	<PageTransition refresh={key}>
-	<div class="content">
-		{#await $session.season}
-			<p>Loading...</p>
-		{:then d} 
+	<!-- <PageTransition refresh={key}> -->
+		<div class="content">
+			<!-- {#await $session.season}
+				<p>Loading...</p>
+			{:then d}
+				<slot />
+			{/await} -->
 			<slot />
-		{/await}
-	</div>
-</PageTransition>
+		</div>
+	<!-- </PageTransition> -->
 </main>
 
 <Footer />
@@ -45,6 +47,8 @@
 		max-width: 1024px;
 		margin: 0 auto;
 		box-sizing: border-box;
+		display: grid;
+		grid-template-rows: auto 1fr;
 	}
 	main {
 		overflow-y: scroll;
