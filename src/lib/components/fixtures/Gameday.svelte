@@ -1,6 +1,14 @@
 <script lang="ts">
   import Match from './Match.svelte';
+  import MatchInfo from './ModalMatch/index.svelte';
+  import CloseButton from '$lib/UI/ModalCloseButton.svelte';
+  import { getContext } from 'svelte';
   export let gameday: import("$lib/types").Gamedays;
+
+  const { open } = getContext('simple-modal');
+  const showMatch = (match) => {
+    open(MatchInfo, { match }, { closeButton: CloseButton });
+  };
 
   $: [weekday, month, day, year] = gameday.label.split(' ');
 </script>
@@ -13,7 +21,7 @@
   </div>
   <div class="matches">
     {#each gameday.matches as match}
-      <Match {match} />
+      <Match {match} {showMatch} />
     {/each}
   </div>
 </div>

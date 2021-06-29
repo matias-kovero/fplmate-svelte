@@ -244,6 +244,21 @@ footer {
 	background: rgba(50, 50, 50, 0.2);
 	border-radius: 5px;
 }
+
+/* Apply colorscheme to modal lib */
+.window-wrap {
+  margin: 0 !important;
+}
+.window {
+  background: var(--surface2) !important;
+  color: var(--text1) !important;
+  margin: 0 !important;
+  border-radius: 5px !important;
+}
+.window > .content {
+  padding: 0 !important;
+}
+
 /* USER SEARCH */
 .search-element {
   /* background-color: var(--surface1); */

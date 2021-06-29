@@ -17,6 +17,15 @@
   import Gameday from '$lib/components/fixtures/Gameday.svelte';
   import Controls from '$lib/components/fixtures/Controls.svelte';
   import GwInfo from '$lib/components/fixtures/GameweekInfo.svelte';
+  import { onMount } from 'svelte';
+
+  let Modal;
+
+  onMount(async () => {
+    const module = await import('svelte-simple-modal');
+    Modal = module.default;
+  });
+
   export let matches, event;
 
   $: gameweek = getGameweek(event);
@@ -34,14 +43,15 @@
     <Controls {gameweek} />
     <GwInfo {gameweek} />
   {/await}
-
-  <div class="gamedays">
-    {#if gamedays && gamedays.length}
-      {#each gamedays as gameday (gameday)}
-        <Gameday {gameday} />
-      {/each}
-    {/if}
-  </div>
+  <svelte:component this={Modal}>
+    <div class="gamedays">
+      {#if gamedays && gamedays.length}
+        {#each gamedays as gameday (gameday)}
+          <Gameday {gameday} />
+        {/each}
+      {/if}
+    </div>
+  </svelte:component>
 </div>
 
 <style>

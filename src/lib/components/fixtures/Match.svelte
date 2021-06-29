@@ -3,16 +3,9 @@
   import { getTeamBadge } from '$lib/utils';
   import type { MatchesEntity } from '$lib/types';;
 
-  // https://svelte.dev/tutorial/context-api
-  import { setContext } from 'svelte';
-
   export let match: MatchesEntity;
-  // Childs will have access to the given data, no need to pass props :)
-  setContext('match', { match });
-  /* On Child use:
-    import { getContext } from 'svelte';
-    const { match } = getContext('match');
-  */
+  export let showMatch;
+
   $: team_h = getTeam(match.team_h);
   $: team_a = getTeam(match.team_a);
   $: badge_h = getTeamBadge($team_h.code);
@@ -22,7 +15,7 @@
   $: kickoff_label = new Date(match.kickoff_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 </script>
 
-<div class="match-container">
+<div class="match-container" on:click={() => { showMatch(match) } }>
   <div class="team-h">
     <div class="name">{$team_h.name}</div>
     <div class="logo">

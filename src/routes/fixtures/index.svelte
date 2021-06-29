@@ -14,6 +14,14 @@
   import GwInfo from '$lib/components/fixtures/GameweekInfo.svelte';
   import Gameday from '$lib/components/fixtures/Gameday.svelte';
   import PageTransition from '$lib/LoadIndicator/PageTransition.svelte';
+  import { onMount } from 'svelte';
+
+  let Modal;
+
+  onMount(async () => {
+    const module = await import('svelte-simple-modal');
+    Modal = module.default;
+  });
 
   export let matches, key;
   /* Get given gameweek */
@@ -22,6 +30,11 @@
   $: gamedays = gameDays(matches);
   /* Nav state, is an matche visible */
   $: showMatch = false;
+
+  function viewMatch(match) {
+    console.log(match);
+    showMatch = true;
+  }
 </script>
 
 <svelte:head>
@@ -35,13 +48,15 @@
       <GwInfo {gameweek} />
     {/await}
   </div>
-  <div class="gamedays">
-    {#if gamedays && gamedays.length}
-      {#each gamedays as gameday (gameday)}
-        <Gameday {gameday} />
-      {/each}
-    {/if}
-  </div>
+  <svelte:component this={Modal}>
+    <div class="gamedays">
+      {#if gamedays && gamedays.length}
+        {#each gamedays as gameday (gameday)}
+          <Gameday {gameday} />
+        {/each}
+      {/if}
+    </div>
+  </svelte:component>
 </PageTransition>
 
 <!-- <div class="gameweek">
@@ -64,8 +79,8 @@
     display: grid;
     gap: 1em;
   }
-  .gameweek {
+/*   .gameweek {
     display: grid;
     gap: 2em;
-  }
+  } */
 </style>

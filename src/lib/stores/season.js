@@ -43,3 +43,14 @@ export function getTeam(id) {
 export function getType(id) {
   return derived(session, $s => $s.season.element_types.find(t => t.id === id));
 }
+
+export function getStatsElement(name) {
+  return derived(session, $s => $s.season.element_stats.find(e => e.name === name));
+}
+
+/**
+ * Get Element information of given element id
+ */
+export function getPlayerElement(element) {
+  return derived(session, $s => $s.season.elements.find(e => e.id === element));
+}
