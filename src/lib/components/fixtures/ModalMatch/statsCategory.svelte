@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { fade, fly } from 'svelte/transition';
   import { getStatsElement } from '$lib/stores/season';
   import Element from './element.svelte';
   import type { StatsEntity } from "$lib/types";
@@ -7,15 +8,15 @@
   $: st = getStatsElement(stats.identifier);
 </script>
 
-<li class="shadow">
+<li class="shadow" in:fly="{{y: -200, duration: 300 }}" out:fly="{{y: -100, duration: 600 }}">
   <div class="heading">{$st.label}</div>
   <div class="body">
-    <ul class="stat-list">
+    <ul class="stat-list" transition:fade="{{ duration: 300 }}">
       {#each stats.h as homeStat}
         <Element {...homeStat} />
       {/each}
     </ul>
-    <ul class="stat-list">
+    <ul class="stat-list" transition:fade="{{ duration: 300 }}">
       {#each stats.a as awayStat}
         <Element {...awayStat} />
       {/each}

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { fade } from 'svelte/transition';
   import type { MatchesEntity, LiveData } from "$lib/types";
   import { playersFromMatch } from '$lib/utils';
   import Cell from './element.svelte';
@@ -7,20 +8,28 @@
   $: players = playersFromMatch(match, live);
 </script>
 
-<table class="shadow">
-  <thead>
-    <tr>
-      <th>%</th>
-      <th>Player</th>
-      <th>Points</th>
-    </tr>
-  </thead>
-  <tbody>
-    {#each players as data}
-      <Cell {data} />
-    {/each}
-  </tbody>
-</table>
+{#if players}
+  <table class="shadow" transition:fade>
+    <thead>
+      <tr>
+        <th>%</th>
+        <th>Player</th>
+        <th>Points</th>
+      </tr>
+    </thead>
+    <tbody>
+      {#each players as data}
+        <Cell {data} />
+      {/each}
+    </tbody>
+  </table>
+{:else}
+  <div transition:fade>
+    <div>Puput syö ruohoa</div>
+    <small>Please wait, no data found.</small>
+  </div>
+{/if}
+
 
 <style>
   table {
@@ -52,5 +61,9 @@
   tr th:last-of-type {
     border-top-right-radius: 2.5px;
     width: 70px;
+  }
+  div {
+    display: grid;
+    place-items: center;
   }
 </style>

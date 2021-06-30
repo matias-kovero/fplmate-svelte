@@ -1,21 +1,23 @@
 <script lang="ts">
   import { getTeam } from '$lib/stores/season';
+
   import TabPoints from './PlayerList/index.svelte';
   import TabStats from './stats.svelte';
   import TabPreds from './predictions.svelte';
+  import IconPoints from 'carbon-icons-svelte/lib/Trophy16/Trophy16.svelte';
+  import IconStats from 'carbon-icons-svelte/lib/ReportData16/ReportData16.svelte';
+  import IconPred from 'carbon-icons-svelte/lib/Data_116/Data_116.svelte';
+
   import type { MatchesEntity, LiveData } from "$lib/types";
   export let match: MatchesEntity, live: LiveData;
 
   let tabs = [
-    { id: 0, label: 'points', component: TabPoints },
-    { id: 1, label: 'stats', component: TabStats },
-    { id: 2, label: 'predictions', component: TabPreds }
+    { id: 0, label: 'points', component: TabPoints, icon: IconPoints },
+    { id: 1, label: 'stats', component: TabStats, icon: IconStats },
+    { id: 2, label: 'predictions', component: TabPreds, icon: IconPred }
   ];
 
-  function switchTab(id) {
-    tab = id;
-  }
-  $: tab = 0;
+  $: active_tab = 0;
 
   $: team_h = getTeam(match.team_h);
   $: team_a = getTeam(match.team_a);
@@ -35,17 +37,22 @@
   </div>
   <div class="content">
     <div class="tab-btn-group">
-      {#each tabs as tabObj}
+      {#each tabs as tab}
         <div 
           class="btn" 
-          value={tabObj.id} 
-          class:active={tab == tabObj.id}
-          on:click={() => switchTab(tabObj.id)}
-        >{tabObj.label}</div>
+          value={tab.id} 
+          class:active={active_tab == tab.id}
+          on:click={() => active_tab = tab.id}
+        >
+        <div>
+          <svelte:component this={tab.icon} />
+          <span>{tab.label}</span>
+        </div>
+      </div>
       {/each}
     </div>
     <div class="tab-content">
-      <svelte:component this={tabs[tab].component} {match} {live} />
+      <svelte:component this={tabs[active_tab].component} {match} {live} />
     </div>
   </div>
 </div>
@@ -57,13 +64,24 @@
     padding: 1em 3em .5em 3em;
     font-size: x-small;
   }
+  .btn div {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    place-items: center;
+    gap: .5em;
+  }
+  .btn span { 
+    text-align: left; 
+    width: 100%;
+  }
   .tab-btn-group > div {
     width: 100%;
     place-items: center;
     display: grid;
     text-transform: capitalize;
     background: var(--surface4);
-    padding: .25em 0;
+    padding: .5em 0;
+    cursor: pointer;
   }
   .tab-btn-group > div:first-of-type {
     border-top-left-radius: 5px;

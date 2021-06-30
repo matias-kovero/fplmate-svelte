@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { fade } from 'svelte/transition';
   import { getTeamShirt } from '$lib/utils';
   import { getTeam } from '$lib/stores/season';
   import type { EnrichedPlayerEntity } from "$lib/types";
@@ -13,7 +14,7 @@
   $: hasRed = data.cards.red;
 </script>
 
-<tr>
+<tr transition:fade>
   <td>{player.selected_by_percent}</td>
   <td class="player">
     <div class="info">
