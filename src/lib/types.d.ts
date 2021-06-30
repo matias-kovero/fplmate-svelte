@@ -1,3 +1,5 @@
+import type { ElementsEntity } from "./stores/types";
+
 /**
  * Can be made globally available by placing this
  * inside `global.d.ts` and removing `export` keyword
@@ -192,4 +194,57 @@ export interface ResultsEntity {
   total: number;
   entry: number;
   entry_name: string;
+}
+
+/* LIVE DATA */
+export interface LiveData {
+  elements?: (LiveElements)[] | null;
+}
+export interface LiveElements {
+  id: number;
+  stats: LiveStats;
+  explain?: (LiveExplainEntity | null)[] | null;
+}
+export interface LiveStats {
+  minutes: number;
+  goals_scored: number;
+  assists: number;
+  clean_sheets: number;
+  goals_conceded: number;
+  own_goals: number;
+  penalties_saved: number;
+  penalties_missed: number;
+  yellow_cards: number;
+  red_cards: number;
+  saves: number;
+  bonus: number;
+  bps: number;
+  influence: string;
+  creativity: string;
+  threat: string;
+  ict_index: string;
+  total_points: number;
+  in_dreamteam: boolean;
+}
+export interface LiveExplainEntity {
+  fixture: number;
+  stats?: (LiveStatsEntity)[] | null;
+}
+export interface LiveStatsEntity {
+  identifier: string;
+  points: number;
+  value: number;
+}
+
+export interface EnrichedPlayerEntity {
+  player: ElementsEntity
+  points: {
+    value: number,
+    bonus: number,
+  },
+  cards: {
+    yellow: number,
+    red: number,
+  },
+  sort: number
 }
