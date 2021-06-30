@@ -22,7 +22,7 @@
 	}
 </script>
 
-<header>
+<header class="shadow">
 	<div class="corner">
 		{#if deepLeague}
 			<NavBack />

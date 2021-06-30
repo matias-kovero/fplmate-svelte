@@ -1,9 +1,10 @@
 <script context="module">  
   export async function load({ page, fetch }) {
-    const [ matches ] = await Promise.all([
-      await fetch(`/fixtures.json`).then((r) => r.json())
+    const [ matches, live ] = await Promise.all([
+      await fetch(`/fixtures.json`).then((r) => r.json()),
+      await fetch(`/fixtures/live.json`).then((r) => r.json()),
     ]);
-    return { props: { matches, key: page.path } };
+    return { props: { matches, live, key: page.path } };
   }
 </script>
 
@@ -23,7 +24,7 @@
     Modal = module.default;
   });
 
-  export let matches, key;
+  export let matches, live, key;
   /* Get given gameweek */
   $: gameweek = getGameweek(matches[0].event);
   /* Gamedays of said gameweek */
@@ -52,7 +53,7 @@
     <div class="gamedays">
       {#if gamedays && gamedays.length}
         {#each gamedays as gameday (gameday)}
-          <Gameday {gameday} />
+          <Gameday {gameday} {live} />
         {/each}
       {/if}
     </div>

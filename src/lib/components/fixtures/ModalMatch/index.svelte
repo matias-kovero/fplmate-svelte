@@ -1,10 +1,10 @@
 <script lang="ts">
   import { getTeam } from '$lib/stores/season';
-  import TabPoints from './points.svelte';
+  import TabPoints from './PlayerList/index.svelte';
   import TabStats from './stats.svelte';
   import TabPreds from './predictions.svelte';
-  import type { MatchesEntity } from "$lib/types";
-  export let match: MatchesEntity;
+  import type { MatchesEntity, LiveData } from "$lib/types";
+  export let match: MatchesEntity, live: LiveData;
 
   let tabs = [
     { id: 0, label: 'points', component: TabPoints },
@@ -15,10 +15,10 @@
   function switchTab(id) {
     tab = id;
   }
+  $: tab = 0;
 
   $: team_h = getTeam(match.team_h);
   $: team_a = getTeam(match.team_a);
-  $: tab = 0;
 </script>
 
 <div class="match-wrapper">
@@ -45,7 +45,7 @@
       {/each}
     </div>
     <div class="tab-content">
-      <svelte:component this={tabs[tab].component} {match} />
+      <svelte:component this={tabs[tab].component} {match} {live} />
     </div>
   </div>
 </div>

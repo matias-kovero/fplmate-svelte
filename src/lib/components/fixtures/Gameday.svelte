@@ -3,11 +3,12 @@
   import MatchInfo from './ModalMatch/index.svelte';
   import CloseButton from '$lib/UI/ModalCloseButton.svelte';
   import { getContext } from 'svelte';
-  export let gameday: import("$lib/types").Gamedays;
+  export let gameday: import("$lib/types").Gamedays, live;
 
   const { open } = getContext('simple-modal');
+
   const showMatch = (match) => {
-    open(MatchInfo, { match }, { closeButton: CloseButton });
+    open(MatchInfo, { match, live }, { closeButton: CloseButton });
   };
 
   $: [weekday, month, day, year] = gameday.label.split(' ');

@@ -16,7 +16,7 @@
 
 </script>
 
-<header>
+<header class="shadow">
 	<div class="corner">
 		{#if isLogged}
 			{#if $page.params.gameweek}
