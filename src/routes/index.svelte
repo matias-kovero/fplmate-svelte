@@ -48,11 +48,12 @@
 
 <style>
 	section {
-		display: flex;
-		flex-direction: column;
+		display: grid;
+		/* flex-direction: column; */
 		justify-content: center;
 		align-items: center;
-		flex: 1;
+		/* flex: 1; */
+		place-items: center;
 	}
 	h1 {
 		width: 100%;

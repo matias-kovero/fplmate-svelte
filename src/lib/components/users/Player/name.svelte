@@ -6,7 +6,7 @@
 </script>
 
 <div>
-  <small>{$player.web_name}</small>
+  <small>{$player?.web_name || 'Mystery Man'}</small>
   <div class="fixtures">() () ()</div>
 </div>
 

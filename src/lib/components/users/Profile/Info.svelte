@@ -9,7 +9,7 @@
   $: gwLabel = rankLabel(user.summary_event_rank);
 </script>
 
-<div class="title"></div>
+<!-- <div class="title"></div> -->
 <div class="wrapper">
   <div class="info">
     <div class="owner">{user.player_first_name} {user.player_last_name}</div>
@@ -21,8 +21,8 @@
     </div>
   </div>
   <div class="gameweek">
-    <div class="score">{user.summary_event_points}</div>
-    <div class="position">{rankPosition}</div>
+    <div class="score">{user.summary_event_points || 0}</div>
+    <div class="position">{rankPosition || ''}</div>
   </div>
 </div>
 

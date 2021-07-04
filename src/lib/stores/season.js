@@ -1,5 +1,5 @@
 import { session } from '$app/stores';
-import { derived } from 'svelte/store';
+import { derived, get } from 'svelte/store';
 
 export function currentGameweek() {
   return derived(session, $s => $s.season.events.find(e => e.is_current).id);
@@ -44,12 +44,28 @@ export function getType(id) {
   return derived(session, $s => $s.season.element_types.find(t => t.id === id));
 }
 
+/* export function getRole(element_type) {
+  if (!element_type) return null;
+  return derived(session, $s => $s.season.element_types.find(t => t.id === id))
+} */
+
+/**
+ * Gets all players of given element_type
+ * @param {number} element_type 
+ * @returns {import('./types').ElementsEntity[]}
+ */
+export function getPlayersOfType(element_type) {
+  return get(derived(session, $s => $s.season.elements.filter(e => e.element_type === element_type)));
+}
+
 export function getStatsElement(name) {
   return derived(session, $s => $s.season.element_stats.find(e => e.name === name));
 }
 
 /**
  * Get Element information of given element id
+ * @param {number} element 
+ * @returns {import('svelte/store').Readable<import('./types').ElementsEntity>}
  */
 export function getPlayerElement(element) {
   return derived(session, $s => $s.season.elements.find(e => e.id === element));

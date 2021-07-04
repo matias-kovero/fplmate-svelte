@@ -3,15 +3,17 @@
     const { event } = page.params;
 
     // check that slug is number!!
-    const [ matches ] = await Promise.all([
-      await fetch(`/fixtures/${event}.json`).then((r) => r.json())
+    const [ matches, live ] = await Promise.all([
+      await fetch(`/fixtures/${event}.json`).then((r) => r.json()),
+      await fetch(`/fixtures/${event}/live.json`).then((r) => r.json()),
     ]);
 
-    return { props: { event: parseInt(event), matches } };
+    return { props: { event: parseInt(event), matches, live } };
   }
 </script>
 
 <script>
+  import { fade } from 'svelte/transition';
   import { getGameweek } from '$lib/stores/season';
   import { gameDays } from '$lib/utils';
   import Gameday from '$lib/components/fixtures/Gameday.svelte';
@@ -26,7 +28,7 @@
     Modal = module.default;
   });
 
-  export let matches, event;
+  export let matches, event, live;
 
   $: gameweek = getGameweek(event);
   $: gamedays = gameDays(matches);
@@ -46,8 +48,8 @@
   <svelte:component this={Modal}>
     <div class="gamedays">
       {#if gamedays && gamedays.length}
-        {#each gamedays as gameday (gameday)}
-          <Gameday {gameday} />
+        {#each gamedays as gameday, i (gameday)}
+          <Gameday {gameday} {live} position={i+1} />
         {/each}
       {/if}
     </div>
@@ -58,9 +60,11 @@
   .gamedays {
     display: grid;
     gap: 1em;
+    overflow: hidden;
   }
   .gameweek {
     display: grid;
     gap: 2em;
+    overflow: hidden;
   }
 </style>

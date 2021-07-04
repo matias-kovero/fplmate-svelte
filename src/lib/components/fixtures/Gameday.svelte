@@ -3,7 +3,7 @@
   import MatchInfo from './ModalMatch/index.svelte';
   import CloseButton from '$lib/UI/ModalCloseButton.svelte';
   import { getContext } from 'svelte';
-  export let gameday: import("$lib/types").Gamedays, live;
+  export let gameday: import("$lib/types").Gamedays, live, position;
 
   const { open } = getContext('simple-modal');
 
@@ -14,14 +14,14 @@
   $: [weekday, month, day, year] = gameday.label.split(' ');
 </script>
 
-<div class="container shadow">
+<div class="container shadow" style={`grid-row: ${position}/${position};`}>
   <div class="title">
     <div></div>
     <span>{weekday} {day}</span>
     <div></div>
   </div>
   <div class="matches">
-    {#each gameday.matches as match}
+    {#each gameday.matches as match, i (match)}
       <Match {match} {showMatch} />
     {/each}
   </div>
@@ -32,6 +32,7 @@
     display: grid;
     grid-template-columns: auto;
     grid-template-rows: auto auto;
+    grid-column: 1 / 1;
   }
   .title {
     font-weight: 700;
@@ -41,6 +42,7 @@
     /* grid-template-columns: minmax(100px, 45%) minmax(80px, 10%) minmax(100px, 45%); */
     position: relative;
     justify-content: center;
+    max-height: 23px;
   }
   .title div {
     background: var(--surface2);

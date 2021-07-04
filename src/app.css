@@ -85,6 +85,7 @@
 	--indico: #E90052;
 	--cyan: #05F0FF;
 	--neonyellow: #EBFF00;
+  --burgundy: #80072d;
 	--gray: #E2E2E2;
 	--red: #C0020D;
   --gold: #ffd96d;
@@ -277,6 +278,18 @@ footer {
   background-color: var(--surface1) !important;
   color: var(--text1) !important;
 }
+
+.bch-bg { background: var(--gray); color: #000; }
+.gkb-bg { background: var(--neonyellow); color: #000; }
+.def-bg { background: var(--lightgreen); color: #000; }
+.mid-bg { background: var(--cyan); color: #000; }
+.fwd-bg { background: var(--indico); }
+
+.fdr-1 { background: var(--darkgreen); color: #FFF; }
+.fdr-2 { background: var(--lightgreen); color: #000; }
+.fdr-3 { background: var(--gray); color: #000; }
+.fdr-4 { background: var(--indico); color: #FFF; }
+.fdr-5 { background: var(--burgundy); color: #FFF; }
 
 h1,
 h2,

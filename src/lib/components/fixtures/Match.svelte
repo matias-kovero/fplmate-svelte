@@ -1,8 +1,9 @@
 <script lang="ts">
+  import { fade, slide } from 'svelte/transition';
+  import { expoOut } from 'svelte/easing';
   import { getTeam } from '$lib/stores/season';
   import { getTeamBadge } from '$lib/utils';
   import type { MatchesEntity } from '$lib/types';;
-
   export let match: MatchesEntity;
   export let showMatch;
 
@@ -13,10 +14,17 @@
 
   $: live = !match.finished && !match.finished_provisional;
   $: kickoff_label = new Date(match.kickoff_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+  // in:fade="{{duration: 700, easing: quintInOut, delay: 100 }}"
+  // out:slide="{{duration: 500, easing: cubicOut }}"
 </script>
 
-<div class="match-container" on:click={() => { showMatch(match) } }>
-  <div class="team-h">
+<div class="match-container" 
+  on:click={() => { showMatch(match) } } 
+  out:fade="{{ duration: 250 }}"
+  in:slide="{{duration: 550, easing: expoOut }}"
+  >
+  <div class="team-h" transition:fade>
     <div class="name">{$team_h.name}</div>
     <div class="logo">
       <img 
@@ -28,7 +36,7 @@
     </div>
   </div>
   {#if match.started}
-  <div class="score shadow">
+  <div class="score shadow" transition:fade>
     <div class="score-end">{match.team_h_score || 0}</div>
     <div class="divider"></div>
     <div class="score-end">{match.team_a_score || 0}</div>
@@ -39,7 +47,7 @@
   {:else}
   <div class="kickoff-time shadow">{kickoff_label}</div>
   {/if}
-  <div class="team-a">
+  <div class="team-a" transition:fade>
     <div class="logo">
       <img 
         alt={$team_a.short_name} 
@@ -59,12 +67,17 @@
     padding: .3em;
     place-items: center;
     border-bottom: 1px solid var(--surface1);
+    max-height: 40px;
+    overflow: hidden;
   }
   .team-h, .team-a {
     display: grid;
     width: 100%;
     place-items: center;
     word-break: break-all;
+  }
+  .logo {
+    max-height: 30px;
   }
   .team-h {
     text-align: right;

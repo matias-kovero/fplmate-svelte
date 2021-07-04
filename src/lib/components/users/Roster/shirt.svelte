@@ -3,10 +3,10 @@
   import type { Readable } from "svelte/store";
   import { getTeamShirt } from '$lib/utils';
 
-  export let player: Readable<ElementsEntity>;
+  export let player: ElementsEntity;
   export let team: Readable<TeamsEntity>;
   
-  $: shirt = getTeamShirt($player);
+  $: shirt = getTeamShirt(player);
 </script>
 
 <div>

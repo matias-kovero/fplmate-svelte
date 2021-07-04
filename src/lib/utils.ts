@@ -1,6 +1,7 @@
-import { getType, getPlayerElement } from './stores/season';
+import { getType, getPlayerElement, getTeam } from './stores/season';
 import { get } from 'svelte/store';
 import type { Gamedays, MatchesEntity, LiveData, EnrichedPlayerEntity } from './types';
+import { onDestroy } from 'svelte';
 /**
  * Proxy for https://fantasy.premierleague.com
  * Advice to create your own proxy as this one
@@ -26,12 +27,22 @@ export function getTeamBadge(team_doce: number): { big: string, small: string } 
  * Valid size: __66, 110, 220__
  */
 export function getTeamShirt(player: any): string {
-  if (!player || !player.team_code) return ''; // Will return invalid url - instead return empty shirt?
+  if (!player || !player.team_code) return `${API}/dist/img/shirts/standard/shirt_0`; // Will return invalid url - instead return empty shirt?
   let type;
   // Is this an memory leak?
   getType(player.element_type).subscribe(val => { type = val; });
   return `${API}/dist/img/shirts/standard/shirt_${player.team_code}${type.ui_shirt_specific ? `_${player.element_type}`: ''}`;
 }
+
+/**
+ * Returns players mugshot picture. Might be an 404 url - if FPL is missing the image.
+ */
+export function getPlayerPicture(code: number): string {
+  if (!code) return '';
+  // https://fpl-server.vercel.app/photos/players/110x140/pXXXXXXX.png
+  return `https://resources.premierleague.com/premierleague/photos/players/110x140/p${code}.png`;
+}
+
 /**
  * Sort matches by gameday.
  */
@@ -142,6 +153,51 @@ function calculateMatch(elements: number[], match: MatchesEntity, live: LiveData
   return players;
 }
 
+/**
+ * Stack users picks to type categories, and calculate their points.
+ */
+function calculateRoster(rosterData, live: LiveData, teams) {
+  // This should be illegal, get it from season data - bad to hardcode.
+  let data = [
+    { type: 0, players: [], played: { value: 0, sum: 0, points: 0 }, name: 'Bench', cssKey: 'bch-bg' },
+    { type: 1, players: [], played: { value: 0, sum: 0, points: 0 }, name: 'Goalkeeper', cssKey: 'gkb-bg' },
+    { type: 2, players: [], played: { value: 0, sum: 0, points: 0 }, name: 'Defenders', cssKey: 'def-bg' },
+    { type: 3, players: [], played: { value: 0, sum: 0, points: 0 }, name: 'Midfielders', cssKey: 'mid-bg' },
+    { type: 4, players: [], played: { value: 0, sum: 0, points: 0 }, name: 'Forwards', cssKey: 'fwd-bg' },
+  ];
+
+  for(let p of rosterData) {
+    // Get right array in data[]. multiplier === 0 is Bench.
+    let dp = data[p.multiplier && p.player.element_type];
+    let games = teams.find(t => t.id === p.player.team);
+    let points = getPlayerLivePoints(p.player.id, live);
+    let { bonus, remove } = getPlayerBPS(p.player.id, games);
+    //console.log(p.player.web_name, 'has', points, 'from', games.gameweek.length, 'games. BPS:', bonus, remove);
+
+    if (bonus && points === p.player.event_points) {
+      if (remove) points = (points - remove);
+    }
+
+    dp.players.push({
+      ...p,
+      started: matchesBegun(games),// If player has started games, show points.
+      fixtures: games.future,
+      points: {
+        value: points * p.multiplier,
+        bonus: points * p.multiplier
+      }
+    });
+    // Update played values
+    dp.played.value += points ? p.player.now_cost : 0;
+    dp.played.sum += p.player.now_cost;
+    dp.played.points += bonus ? (bonus + points) * p.multiplier : points * p.multiplier;
+    //console.log('Points:', dp.played.points);
+  };
+  // Riisky, Biisky - will ignore first element in Array - in this case the bench. 
+  let points = data.reduce((a,b) => a + b.played.points, 0);
+  return { points, data };
+}
+
 
 function getMatchStats(match: MatchesEntity) {
   if (!match || !match.started || !match.stats) return null;
@@ -183,6 +239,24 @@ function getPlayerPoints(id: number, live: LiveData, fixture: number): number | 
 }
 
 /**
+ * Check players points from live data.
+ */
+function getPlayerLivePoints(id: number, live: LiveData) {
+  if (!live) return null;
+
+  let player = live.elements.find(e => e.id === id);
+  if (!player) return null;
+
+  if (player.explain.length && player.explain[0].stats) {
+    return player.explain.map(f => {
+      return f.stats.reduce((a,b) => {
+        return a + b.points;
+      }, 0);
+    }).reduce((a,b) => a + b, 0);
+  } else return null;
+}
+
+/**
  * Gets players possible BPS, when match isn't even ended.
  */
 function getPlayerBPS(id: number, match) {
@@ -190,13 +264,14 @@ function getPlayerBPS(id: number, match) {
   let points = 0, remove = 0;
   // Looping matches, player might have multiple matches.
   match.gameweek.forEach((m: MatchesEntity) => {
+    //console.log(m);
     let m_points = 0;
     if (!m.started || !m.stats) return;
     let bps = m.stats.find(s => s.identifier === "bps");
     let players = [...bps.a, ...bps.h].sort((a,b) => b.value - a.value);
     // Check if player is found in bps, if not no need to calculate.
     if (!players.find(i => i.element === id)) return;
-
+    //console.log('Gained', players.find(i => i.element == id).value, 'BPS in a match.');
     /** TOP 3 Gains Points (3p, 2p, 1p) - can't be arsed to optimize */
     let f = Math.max.apply(Math, players.map(o => o.value));
     let s = Math.max.apply(Math, players.map(o => o.value != f ? o.value : null));
@@ -220,4 +295,45 @@ function getPlayerBPS(id: number, match) {
     if (m.finished && m.finished_provisional) remove += m_points;
   });
   return { bonus: points, remove };
+}
+
+
+export function createRosterData(fixtures: MatchesEntity[], roster, live: LiveData, event_id) {
+  if (!fixtures || !roster || !roster.picks) return [];
+  let players = [], teams = [];
+  let countedArr = { points: 0, data: [] }; // Possibility to get players total points before the end of match day?
+
+  roster.picks.forEach(p => {
+    let player = get(getPlayerElement(p.element));
+    if (!player) return;
+    players.push({ player, ...p });
+    /* If team isn't yet in teams - search it and add it */
+    if (teams.findIndex(t => t.id === player.team) === -1) {
+      let team = get(getTeam(player.team));
+      if (!team) return;
+      let matches = fixtures.filter(f => f.team_a === team.id || f.team_h === team.id); // All matches of the season
+      let gameweek = matches.filter(f => f.event === event_id); // All matches of the gameweek.
+      let futureFix = matches.filter(f => f.event >= event_id && f.event < (event_id + 6));
+      /* Create array of x matches, to display player future fixtures?? */
+      teams.push({ gameweek, ...team, future: futureFix });
+    };
+  });
+
+  return calculateRoster(players, live, teams);
+}
+
+/**
+ * Has any matches begun for players team.
+ */
+function matchesBegun(matches) {
+  // console.log(matches);
+  if (!matches || !matches.gameweek) return false;
+  let started = matches.gameweek.filter(m => m.started);
+  return !!started.length;
+}
+
+export function onInterval(callback, ms) {
+  const interval = setInterval(callback, ms);
+
+  onDestroy(() => { clearInterval(interval) });
 }

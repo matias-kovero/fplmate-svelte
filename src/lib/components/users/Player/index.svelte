@@ -7,11 +7,11 @@
   export let pick: any;
 
   $: player = getPlayer(pick.element);
-  $: team = getTeam($player.team);
+  $: team = $player ? getTeam($player.team) : null;
 </script>
 <!-- Use table ?? -->
 <div class="shadow-1">
-  <span>{$player.selected_by_percent}</span>
+  <span>{$player?.selected_by_percent || '?'}</span>
   <Shirt {team} {player} />
   <Name {player} />
 </div>

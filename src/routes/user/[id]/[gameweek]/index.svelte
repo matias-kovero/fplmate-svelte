@@ -13,7 +13,7 @@
 <script>
   export let picks, id, user, gameweek;
   import Controls from '$lib/components/users/Controls.svelte';
-  import Roster from '$lib/components/users/Roster.svelte';
+  import Roster from '$lib/components/users/Roster/index.svelte';
 </script>
 
 <svelte:head>

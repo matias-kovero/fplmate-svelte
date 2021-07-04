@@ -248,3 +248,64 @@ export interface EnrichedPlayerEntity {
   },
   sort: number
 }
+
+export interface RosterElement {
+  player?: ElementsEntity,
+  points?: {
+    value: number,
+    bonus: number
+  },
+  element?: number,
+  is_captain?: boolean,
+  is_vice_captain?: boolean,
+  multiplier?: number,
+  position?: number,
+  started?: boolean,
+  fixtures?: MatchesEntity[]
+}
+
+export interface ElementFixture {
+  fixtures?: (FixturesEntity)[] | null;
+  history?: (null)[] | null;
+  history_past?: (HistoryPastEntity)[] | null;
+}
+export interface FixturesEntity {
+  id: number;
+  code: number;
+  team_h: number;
+  team_h_score?: null;
+  team_a: number;
+  team_a_score?: null;
+  event: number;
+  finished: boolean;
+  minutes: number;
+  provisional_start_time: boolean;
+  kickoff_time: string;
+  event_name: string;
+  is_home: boolean;
+  difficulty: number;
+}
+export interface HistoryPastEntity {
+  season_name: string;
+  element_code: number;
+  start_cost: number;
+  end_cost: number;
+  total_points: number;
+  minutes: number;
+  goals_scored: number;
+  assists: number;
+  clean_sheets: number;
+  goals_conceded: number;
+  own_goals: number;
+  penalties_saved: number;
+  penalties_missed: number;
+  yellow_cards: number;
+  red_cards: number;
+  saves: number;
+  bonus: number;
+  bps: number;
+  influence: string;
+  creativity: string;
+  threat: string;
+  ict_index: string;
+}

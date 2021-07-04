@@ -36,7 +36,7 @@
     <div class="away">{$team_a.name}</div>
   </div>
   <div class="content">
-    <div class="tab-btn-group">
+    <div class="tab-btn-group shadow">
       {#each tabs as tab}
         <div 
           class="btn" 
